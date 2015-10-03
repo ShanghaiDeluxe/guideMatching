@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+*/migrations/
+*/settings.py
+__pycache__/
+*~
