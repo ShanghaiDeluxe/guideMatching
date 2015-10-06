@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<!--//
+This web page has been developed by J.
+ - jicjjang12@gmail.com
+-->
+<html lang="ko">
+<head>
+    <title>Show me the Seoul</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="/static/css/test.css">
+</head>
+<body>
+    <form action="." method="POST">
+        <input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
+        <input type="hidden" name="next" value="/">
+        <p>
+            <label for="id_username">ID:</label>
+            <input id="id_username" maxlength="254" name="username" type="text" />
+        </p>
+        <p>
+            <label for="id_email">Email:</label>
+            <input id="id_email" name="email" type="email" />
+        </p>
+        <button id="code">인증코드 보내기</button>
+        <p>
+            <label for="id_cert_code">Code:</label>
+            <input id="id_cert_code" maxlength="30" name="cert_code" type="text" />
+        </p>
+        <input type="submit" value="확인">
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/static/js/lost.js"></script>
+</body>
+</html>
