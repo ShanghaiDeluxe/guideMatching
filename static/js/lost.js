@@ -18,12 +18,12 @@
                     email: $('#id_email').val()
                 },
                 success: function (msg) {
-                    var json = JSON.parse(msg);
-                    console.log(json);
+                    //var json = JSON.parse(msg);
+                    console.log(msg);
                 },
                 fail: function (msg) {
-                    var json = JSON.parse(msg);
-                    console.log(json);
+                    //var json = JSON.parse(msg);
+                    console.log(msg);
                 }
             })
         },
@@ -39,8 +39,8 @@
                     cert_code: $('#id_cert_code').val()
                 },
                 success: function (msg) {
-                    var json = JSON.parse(msg);
-                    console.log(json);
+                    //var json = JSON.parse(msg);
+                    console.log(msg);
                 }
             })
         };

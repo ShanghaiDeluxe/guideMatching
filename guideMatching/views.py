@@ -80,10 +80,15 @@ def lost(request):
                         form.add_error('cert_code', '인증번호가 틀렸습니다.')
                         return JsonResponse({"status": 0, "messages": form.errors})
 
+                    username.set_password(form.cleaned_data['password_check'])
+                    username.save()
+
                     my_user.cert_code = ''
                     my_user.save()
 
-            return JsonResponse({"status": 1})
+                return JsonResponse({"status": 1})
+
+            return JsonResponse({"status": 0, "messages": form.errors})
 
         else:
             form = LostForm()

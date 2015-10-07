@@ -63,6 +63,13 @@ class Clean:
             raise forms.ValidationError('없는 사용자 정보입니다.')
         return email
 
+    @staticmethod
+    def password_check(self, password, password_check):
+        if password == password_check:
+            return password_check
+
+        raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
+
 
 class SendForm(forms.Form):
     username = forms.CharField(label='ID', min_length=4, max_length=30, required=True,
@@ -84,12 +91,19 @@ class LostForm(forms.Form):
                              widget=forms.EmailInput, error_messages=error_message['email'])
     cert_code = forms.CharField(label='Code', max_length=30, required=True,
                                 error_messages=error_message['cert_code'])
+    password = forms.CharField(label="Password", min_length=6, max_length=30, required=True,
+                               widget=forms.PasswordInput, error_messages=error_message['password'])
+    password_check = forms.CharField(label="Password(again)", min_length=6, max_length=30, required=True,
+                                     widget=forms.PasswordInput, error_messages=error_message['password'])
 
     def clean_username(self):
         return Clean.not_exist_username(self, self.cleaned_data['username'])
 
     def clean_email(self):
         return Clean.not_exist_email(self, self.cleaned_data['email'])
+
+    def clean_password_check(self):
+        return Clean.password_check(self, self.cleaned_data['password'], self.cleaned_data['password_check'])
 
 
 class JoinForm(forms.Form):
