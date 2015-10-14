@@ -8,14 +8,14 @@ This web page has been developed by J.
     <title>Show me the Seoul</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="/static/css/test.css">
+    <link rel="stylesheet" href="/static/css/search.less">
 </head>
 <body>
     <form method="POST">
         <input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
         <p>
             <label for="id_username">ID:</label>
-            <input id="id_username" maxlength="30" name="username" type="text" />
+            <input id="id_username" maxlength="30" name="username" type="text" autofocus/>
         </p>
         {% if form.username.errors %}
             <ul class="errorlist">

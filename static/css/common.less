@@ -1,0 +1,56 @@
+.background-image( @url ) {
+    background:url( @url ) no-repeat;
+    text-indent:-999px;
+    overflow:hidden;
+}
+
+.background-size( @width, @height ) {
+    background-size:@width @height;
+    width:@width; height:@height;
+}
+
+.clearfix() {
+    content:'';
+    display:table;
+    clear:both;
+}
+
+.opacity( @op ) {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=@{op})"; // IE-8
+    filter: alpha(opacity=@op); // IE-7
+    opacity: @op / 100; // all-browser
+}
+
+html, body, pre, code {
+    font-family:serif;
+}
+
+html, body {
+    // min-width:1140px;
+    // height:100%;
+    font-size:15px; font-weight:200;
+}
+
+section, p, ul, li {
+    margin:0;
+    padding:0;
+}
+ul, li {
+    font-size:0;
+    list-style:none;
+    text-decoration:none;
+}
+
+a {
+    outline:0 !important;
+    cursor: pointer;
+}
+
+a, a:hover, a:visited, a:link {
+    text-decoration:none;
+}
+
+input {
+    border:none;
+    outline:0;
+}

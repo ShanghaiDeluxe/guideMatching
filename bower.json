@@ -1,0 +1,15 @@
+{
+    "name": "guide-matching",
+    "version": "0.0.0",
+    "authors": [
+        "junseok <jicjjang12@gmail.com>"
+    ],
+    "dependencies": {
+        "jquery": "~2.1.4",
+        "respond": "~1.4.2",
+        "normalize-less": "*"
+    },
+    "devDependencies": {
+        "html5shiv": "~3.7.2"
+    }
+}

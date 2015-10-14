@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<!--//
+This web page has been developed by J.
+ - jicjjang12@gmail.com
+-->
+<html lang="ko">
+<head>
+    <title>Show me the Seoul</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" type="image/ico" href="/static/img/favicon.ico" />
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/static/css/search.css">
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <ul class="lines">
+        {% for line in lines %}
+            <li class="line line-{{ line }}" data-target="station-{{ line }}">
+                <a>Line {{ line }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <ul class="stations">
+{% for station in stations %}
+        <li class="station station-{{ station.line }}"><a href="/travel/{{ station.station_code }}/">{{ station.station }}</a></li>
+{% endfor %}
+    </ul>
+    <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/static/js/search.js"></script>
+</body>
+</html>

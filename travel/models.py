@@ -17,7 +17,9 @@ class MatchTravel(models.Model):
 
 
 class DefaultStation(models.Model):
-    station = models.TextField(max_length=20)
+    station = models.CharField(max_length=20)
+    station_code = models.CharField(max_length=5, unique=True)
+    line = models.CharField(max_length=10)
     extra = models.TextField(blank=True)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)

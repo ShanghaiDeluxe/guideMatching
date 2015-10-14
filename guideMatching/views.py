@@ -6,9 +6,8 @@ from django.core.context_processors import csrf
 from django.http.response import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from travel.forms import SearchForm
-from user.forms import JoinForm, LostForm, SendForm
-from user.models import User, MyStation, MyUser
+from user.forms import *
+from user.models import User, MyUser
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -39,7 +38,7 @@ def signup(request):
         return HttpResponseRedirect('/')
     else:
         if request.method == 'POST':
-            form = JoinForm(request.POST)
+            form = SignupForm(request.POST)
             if form.is_valid():
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
@@ -49,7 +48,7 @@ def signup(request):
                 return HttpResponseRedirect('/')
 
         else:
-            form = JoinForm()
+            form = SignupForm()
 
         context = RequestContext(request, {
             'form': form
@@ -135,23 +134,30 @@ def send_code(request):
 
 @login_required(login_url='/login/')
 def index(request):
-    form = SearchForm()
-    search_result = []
-    show_results = False
-    if 'query' in request.GET:
-        show_results = True
-        query = request.GET['query'].strip()
-        if query:
-            form = SearchForm({'query': query})
-            search_result = MyStation.objects.filter(station__icontains=query)[:10]
-    context = RequestContext(request, {
-        'form': form,
-        'search_result': search_result,
-        'show_results': show_results,
-        'show_email': True,
-    })
+    # form = SearchForm()
+    # search_result = []
+    # show_results = False
+    # if 'query' in request.GET:
+    #     show_results = True
+    #     query = request.GET['query'].strip()
+    #     if query:
+    #         form = SearchForm({'query': query})
+    #         search_result = MyStation.objects.filter(station__icontains=query)[:10]
+    # context = RequestContext(request, {
+    #     'form': form,
+    #     'search_result': search_result,
+    #     'show_results': show_results,
+    #     'show_email': True,
+    # })
 
-    if request.is_ajax():
-        return render_to_response('guide_list.html', context)
-    else:
-        return render_to_response('index.html', context)
+    # if request.is_ajax():
+    #     return render_to_response('station.html', context)
+    # else:
+    # return render_to_response('index.html', context)
+
+    return render_to_response('index.html')
+
+
+@login_required(login_url='/login/')
+def language(request):
+    return HttpResponse("language")

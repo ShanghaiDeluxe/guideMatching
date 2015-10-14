@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<!--//
+This web page has been developed by J.
+ - jicjjang12@gmail.com
+-->
+<html lang="ko">
+<head>
+    <title>Show me the Seoul</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" type="image/ico" href="/static/img/favicon.ico" />
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/static/css/user.css">
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <form action="." enctype="multipart/form-data" method="POST">
+        <input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
+        <p>
+            {% if profile_picture %}
+                <div class="profile_picture">
+                    <img src="/{{ profile_picture }}" alt="profile_picture" />
+                </div>
+                <div class="profile_delete">
+                    <label for="id_profile_delete">Profile delete</label>
+                    <input id="id_profile_delete" type="checkbox" name="picture_delete" value="1" />
+                </div>
+            {% endif %}
+            <label for="id_profile_picture">Profile picture:</label>
+            <input id="id_profile_picture" name="profile_picture" type="file"/>
+        </p>
+        <p>
+            <label for="id_first_name">First_Name:</label>
+            <input id="id_first_name" maxlength="30" name="first_name" type="text"
+                   value="{% if first_name %}{{ first_name }}{% endif %}"/>
+        </p>
+        <p>
+            <label for="id_last_name">Last_Name:</label>
+            <input id="id_last_name" maxlength="30" name="last_name" type="text"
+                   value="{% if last_name %}{{ last_name }}{% endif %}"/>
+        </p>
+        <p>
+            <label for="id_gender">Gender:</label>
+            <input id="id_gender" maxlength="5" name="gender" type="text"
+                   value="{% if gender %}{{ gender }}{% endif %}"/>
+        </p>
+        <p>
+            <label for="id_place">Place:</label>
+            <select multiple="multiple" id="id_place" name="place">
+                {% for k, v in form.fields.place.choices %}
+                    <option value="{{ k }}"{% for place in places %}{% if place.station.station_code == k %}selected{% endif %}{% endfor %}>{{ v }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <label for="id_about_me">About_Me:</label>
+            <textarea cols="40" id="id_about_me" maxlength="300" name="about_me"
+                      rows="10">{% if about_me %}{{ about_me }}{% endif %}</textarea>
+        </p>
+        <p>
+            <label for="id_email">Email:</label>
+            <input id="id_email" name="email" type="email"
+                   value="{% if email %}{{ email }}{% endif %}"/>
+        </p>
+        <p>
+            <label for="id_password">Password:</label>
+            <input id="id_password" maxlength="30" name="password" type="password" />
+        </p>
+        <p>
+            <label for="id_change_password">Change Password:</label>
+            <input id="id_change_password" maxlength="30" name="change_password" type="password" />
+        </p>
+        <p>
+            <label for="id_change_password_check">Change Password(again):</label>
+            <input id="id_change_password_check" maxlength="30" name="change_password_check" type="password" />
+        </p>
+        <input type="submit" value="제출하기" />
+    </form>
+    <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
+</body>
+</html>

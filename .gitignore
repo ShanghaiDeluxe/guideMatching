@@ -4,3 +4,8 @@
 */settings.py
 __pycache__/
 *~
+temp.txt
+subway.json
+custom_subway.json
+static/vendor
+static/profile

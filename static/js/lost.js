@@ -28,7 +28,8 @@
             })
         },
 
-        check_code = function () {
+        check_code = function (e) {
+            e.preventDefault();
             $.ajax({
                 type: "POST",
                 url: 'http://127.0.0.1:8000/lost/',
@@ -39,6 +40,10 @@
                     cert_code: $('#id_cert_code').val()
                 },
                 success: function (msg) {
+                    //var json = JSON.parse(msg);
+                    console.log(msg);
+                },
+                fail: function (msg) {
                     //var json = JSON.parse(msg);
                     console.log(msg);
                 }

@@ -4,12 +4,13 @@ from django.core.mail import send_mail
 from django.db import models
 from django.template.context import Context
 from django.template.loader import get_template
+from travel.models import DefaultStation
 
 
 class MyUser(models.Model):
     user = models.ForeignKey(User, related_name="my_user")
-    profile_picture = models.ImageField(max_length=1024, upload_to='static/profile', blank=True)
-    sex = models.CharField(max_length=10, blank=True)
+    profile_picture = models.ImageField(max_length=1024, upload_to='static/profile/%Y/%m/%d/%h/%m/%s', blank=True)
+    gender = models.CharField(max_length=10, blank=True)
     about_me = models.TextField(max_length=500, blank=True)
     cert_code = models.CharField(max_length=20, blank=True)
     is_auth = models.BooleanField(default=False, blank=False)
@@ -39,8 +40,8 @@ class Language(models.Model):
 
 
 class MyStation(models.Model):
-    user = models.ForeignKey(User, related_name="station")
-    station = models.TextField(max_length=20)
+    user = models.ForeignKey(User, related_name="station_user")
+    station = models.ForeignKey(DefaultStation, related_name="station_station")
     extra = models.TextField(blank=True)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)

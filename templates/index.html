@@ -8,25 +8,17 @@ This web page has been developed by J.
     <title>Show me the Seoul</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="/static/css/test.css">
+    <link rel="stylesheet" href="/static/css/search.less">
 </head>
 <body>
-    <form id="search-form" method="GET" action=".">
-        <input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
-        <p>
-            <label for="id_query">Search for tour spot:</label>
-            <input id="id_query" name="query" size="32" type="text" />
-        </p>
-        <input type="submit" value="Search">
-        <div id="search-results">
-            {% if show_results %}
-                {% include "guide_list.html" %}
-            {% endif %}
-        </div>
-    </form>
-
-    <div id="nav">
-        <a href="/user/">Status</a>
+    <div class="search">
+        <a href="/travel/">Search Tour Spot</a>
+    </div>
+    <div class="language">
+        <a href="/language/">Change Language</a>
+    </div>
+    <div class="my-page">
+        <a href="/user/">My Page</a>
     </div>
 </body>
 </html>
