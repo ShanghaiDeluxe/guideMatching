@@ -28,11 +28,9 @@ This web page has been developed by J.
             </li>
         {% endfor %}
     </ul>
-    <ul class="stations">
-{% for station in stations %}
-        <li class="station station-{{ station.line }}"><a href="/travel/{{ station.station_code }}/">{{ station.station }}</a></li>
-{% endfor %}
-    </ul>
+
+    <ul class="stations"></ul>
+
     <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/search.js"></script>
 </body>
