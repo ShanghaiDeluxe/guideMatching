@@ -12,10 +12,8 @@ from user.models import MyStation, MyUser
 
 @login_required(login_url='/login/')
 def travel_search(request):
-    # stations = DefaultStation.objects.all().order_by('line', 'station')
     context = RequestContext(request, {
         'lines': ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'B', 'A', 'G'],
-        # 'stations': stations
     })
 
     return render_to_response("travel/search.html", context)
