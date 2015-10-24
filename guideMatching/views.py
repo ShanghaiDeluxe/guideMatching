@@ -42,7 +42,8 @@ def signup(request):
             if form.is_valid():
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
-                User.objects.create_user(username=username, password=password)
+                email = form.cleaned_data['email']
+                User.objects.create_user(username=username, password=password, email=email)
                 MyUser.objects.create(user=User.objects.get(username=username))
 
                 return HttpResponseRedirect('/')
