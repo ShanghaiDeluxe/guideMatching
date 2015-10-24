@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<!--//
+This web page has been developed by J.
+ - jicjjang12@gmail.com
+-->
+<html lang="ko">
+<head>
+    <title>Show me the Seoul</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" type="image/ico" href="/static/img/favicon.ico" />
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/static/css/travel/user.css">
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    {% if profile_picture %}
+        <div class="profile_picture">
+            <img src="/{{ profile_picture }}" alt="profile_picture" />
+        </div>
+    {% else %}
+        <div class="profile_picture">
+            <img src="/{{ default_picture }}" alt="default_picture" />
+        </div>
+    {% endif %}
+    <div class="first_name">{% if first_name %}{{ first_name }}{% endif %}</div>
+    <div class="last_name">{% if last_name %}{{ last_name }}{% endif %}</div>
+    <div class="gender">{% if gender %}{{ gender }}{% endif %}</div></div>
+    <div class="place">
+        {% if places %}{% for place in places %}
+            <a>Line {{place.station.line}}, {{ place.station.station }}역</a>
+        {% endfor %}{% endif %}
+    </div>
+    <div class="languages">
+        {% if languages %}{% for language in languages %}{% if language.language == '0' %}
+            <a>한국어</a>
+        {% else %}
+            <a>English</a>
+        {% endif %}{% endfor %}{% endif %}
+    </div>
+    <div class="about_me">{% if about_me %}{{ about_me }}{% endif %}</div>
+    <div class="email">{% if email %}{{ email }}{% endif %}</div>
+    <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
+</body>
+</html>

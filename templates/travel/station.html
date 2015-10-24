@@ -14,33 +14,34 @@ This web page has been developed by J.
     <!--[if lt IE 9]>
     <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="/static/css/search.css">
+    <link rel="stylesheet" href="/static/css/travel/search.css">
 
     <!--[if lt IE 9]>
     <script src="/static/vendor/respond/dest/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
-    <div>
+    <div class="line">
         <a>{{ station.line }}</a>
     </div>
-    <div>
+    <div class="station">
         <a>{{ station.station }}</a>
     </div>
-    <div>
+    <div class="guide_length">
         <a>총 {{ users_len }}명의 가이드를 찾았습니다.</a>
     </div>
-
+    <div class="guides">
     {% for user_list in users_list %}
-        <div>
-            <a>{{ user_list.1.profile_picture }}</a>
+        <div class="guide" data-target="{{ user_list.0.username }}">
+            <img src="/{% if user_list.1.profile_picture %}{{ user_list.1.profile_picture }}{% else %}{{ "static/profile/default_picture.jpg" }}{% endif %}" />
             <a>{{ user_list.0.username }}</a>
-            <a>{{ user_list.1.sex }}</a>
-            <a>{{ user_list.1.about_me }}</a>
+            <a>{% if user_list.1.sex %}{{ user_list.1.sex }}{% endif %}</a>
+            <a>{% if user_list.1.about_me %}{{ user_list.1.about_me }}{% endif %}</a>
             <a>{{ user_list.1.updated }}</a>
         </div>
     {% endfor %}
+    </div>
     <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="/static/js/station.js"></script>
+    <script src="/static/js/travel/station.js"></script>
 </body>
 </html>

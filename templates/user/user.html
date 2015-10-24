@@ -14,7 +14,7 @@ This web page has been developed by J.
     <!--[if lt IE 9]>
     <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="/static/css/user.css">
+    <link rel="stylesheet" href="/static/css/user/user.css">
 
     <!--[if lt IE 9]>
     <script src="/static/vendor/respond/dest/respond.min.js"></script>
@@ -23,7 +23,7 @@ This web page has been developed by J.
 <body>
     <form action="." enctype="multipart/form-data" method="POST">
         <input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
-        <p>
+        <div class="profile">
             {% if profile_picture %}
                 <div class="profile_picture">
                     <img src="/{{ profile_picture }}" alt="profile_picture" />
@@ -32,55 +32,67 @@ This web page has been developed by J.
                     <label for="id_profile_delete">Profile delete</label>
                     <input id="id_profile_delete" type="checkbox" name="picture_delete" value="1" />
                 </div>
+            {% else %}
+                <div class="profile_picture">
+                    <img src="/{{ default_picture }}" alt="default_picture" />
+                </div>
             {% endif %}
             <label for="id_profile_picture">Profile picture:</label>
             <input id="id_profile_picture" name="profile_picture" type="file"/>
-        </p>
-        <p>
+        </div>
+        <div class="first_name">
             <label for="id_first_name">First_Name:</label>
             <input id="id_first_name" maxlength="30" name="first_name" type="text"
                    value="{% if first_name %}{{ first_name }}{% endif %}"/>
-        </p>
-        <p>
+        </div>
+        <div class="last_name">
             <label for="id_last_name">Last_Name:</label>
             <input id="id_last_name" maxlength="30" name="last_name" type="text"
                    value="{% if last_name %}{{ last_name }}{% endif %}"/>
-        </p>
-        <p>
+        </div>
+        <div class="gender">
             <label for="id_gender">Gender:</label>
             <input id="id_gender" maxlength="5" name="gender" type="text"
                    value="{% if gender %}{{ gender }}{% endif %}"/>
-        </p>
-        <p>
+        </div>
+        <div class="place">
             <label for="id_place">Place:</label>
             <select multiple="multiple" id="id_place" name="place">
                 {% for k, v in form.fields.place.choices %}
                     <option value="{{ k }}"{% for place in places %}{% if place.station.station_code == k %}selected{% endif %}{% endfor %}>{{ v }}</option>
                 {% endfor %}
             </select>
-        </p>
-        <p>
+        </div>
+        <div class="language">
+            <label for="id_language">Language:</label>
+            <select multiple="multiple" id="id_language" name="language">
+                {% for k, v in form.fields.language.choices %}
+                    <option value="{{ k }}"{% for language in languages %}{% if language.language == k %}selected{% endif %}{% endfor %}>{{ v }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="about_me">
             <label for="id_about_me">About_Me:</label>
             <textarea cols="40" id="id_about_me" maxlength="300" name="about_me"
                       rows="10">{% if about_me %}{{ about_me }}{% endif %}</textarea>
-        </p>
-        <p>
+        </div>
+        <div class="email">
             <label for="id_email">Email:</label>
             <input id="id_email" name="email" type="email"
                    value="{% if email %}{{ email }}{% endif %}"/>
-        </p>
-        <p>
+        </div>
+        <div class="password">
             <label for="id_password">Password:</label>
             <input id="id_password" maxlength="30" name="password" type="password" />
-        </p>
-        <p>
+        </div>
+        <div class="change_password">
             <label for="id_change_password">Change Password:</label>
             <input id="id_change_password" maxlength="30" name="change_password" type="password" />
-        </p>
-        <p>
+        </div>
+        <div class="change_password_check">
             <label for="id_change_password_check">Change Password(again):</label>
             <input id="id_change_password_check" maxlength="30" name="change_password_check" type="password" />
-        </p>
+        </div>
         <input type="submit" value="제출하기" />
     </form>
     <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
