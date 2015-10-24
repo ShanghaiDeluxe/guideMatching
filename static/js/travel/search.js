@@ -28,7 +28,6 @@
         },
         sortingSubway = function (count, data_obj) {
             var sort_data_obj = [];
-
             for (var key in data_obj) {
                 sort_data_obj.push({
                     'STATION_CD': data_obj[key]['STATION_CD'],
