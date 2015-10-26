@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<!--//
+This web page has been developed by J.
+ - jicjjang12@gmail.com
+-->
+<html lang="ko">
+<head>
+    <title>Show me the Seoul</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" type="image/ico" href="/static/img/favicon.ico" />
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/static/css/user/match.css">
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav></nav>
+    <div class="container">
+        <div class="guide">
+            {% if user_list.1.profile_picture %}
+                <div class="profile_picture">
+                    <img src="/{{ user_list.1.profile_picture }}" alt="profile_picture" />
+                </div>
+            {% else %}
+                <div class="profile_picture">
+                    <img src="/{{ default_picture }}" alt="default_picture" />
+                </div>
+            {% endif %}
+            <div class="username">{{ user_list.0.username }}</div>
+            <div class="first_name">{% if user_list.0.first_name %}{{ user_list.0.first_name }}{% endif %}</div>
+            <div class="last_name">{% if user_list.0.last_name %}{{ user_list.0.last_name }}{% endif %}</div>
+            <div class="gender">{% if user_list.1.gender %}
+                {% if user_list.1.gender == 0 %}남자
+                {% elif user_list.1.gender == 1 %}여자
+                {% else %}비밀
+                {% endif %}{% endif %}
+            </div>
+            <div class="place">
+                {% if places %}{% for place in places %}
+                    <a>Line {{place.station.line}}, {{ place.station.station }}역</a>
+                {% endfor %}{% endif %}
+            </div>
+            <div class="languages">
+                {% if languages %}{% for language in languages %}{% if language.language == '0' %}
+                    <a>한국어</a>
+                {% else %}
+                    <a>English</a>
+                {% endif %}{% endfor %}{% endif %}
+            </div>
+            <div class="about_me">{% if user_list.1.about_me %}{{ user_list.1.about_me }}{% endif %}</div>
+            <div class="email">{% if user_list.0.email %}{{ user_list.0.email }}{% endif %}</div>
+        </div>
+        <div class="ask">
+        {% csrf_token %}
+            {% if status == 'invite' %}
+                <div>아직 상대가 확인 안눌렀어요. 기다려요</div>
+                <button class="cancel">취소해요</button>
+            {% endif %}
+            {% if status == 'receive' %}
+                <button class="accept">초대 받았네요. 초대에 응하세요!</button>
+                <button class="cancel">야 꺼져</button>
+            {% endif %}
+            {% if status == 'confirm' %}
+                <div>여행을 떠나세요!</div>
+                <button class="complete">여행이 끝나면 눌러주세요.</button>
+            {% endif %}
+            {% if status == 'complete' %}
+                <div>종료된 여행이에요...</div>
+                <button class="review">리뷰를 작성해주세요</button>
+            {% endif %}
+        </div>
+    </div>
+    {% if status == 'complete' %}
+        <div class="comment-container inactive">
+            <div class="ask">
+                <button class="review">되돌아가기</button>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <div>
+                    <label for="id_content">About_Me:</label>
+                    <textarea id="id_content" maxlength="300" name="content" cols="40"
+                              rows="10">{{ comment.content }}</textarea>
+                </div>
+                <input class="comment-submit" type="submit" value="리뷰 저장하기"/>
+            </form>
+        </div>
+    {% endif %}
+    <footer></footer>
+    <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/static/js/user/match.js"></script>
+</body>
+</html>

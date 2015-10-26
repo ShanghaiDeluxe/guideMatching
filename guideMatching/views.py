@@ -43,7 +43,8 @@ def signup(request):
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
                 email = form.cleaned_data['email']
-                User.objects.create_user(username=username, password=password, email=email)
+                User.objects.create_user(username=username, password=password, email=email,
+                                         first_name='No', last_name='Name')
                 MyUser.objects.create(user=User.objects.get(username=username))
 
                 return HttpResponseRedirect('/')

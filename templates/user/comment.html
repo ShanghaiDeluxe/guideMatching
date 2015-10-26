@@ -14,7 +14,7 @@ This web page has been developed by J.
     <!--[if lt IE 9]>
     <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="/static/css/travel/user.css">
+    <link rel="stylesheet" href="/static/css/user/user.css">
 
     <!--[if lt IE 9]>
     <script src="/static/vendor/respond/dest/respond.min.js"></script>
@@ -57,17 +57,24 @@ This web page has been developed by J.
     </div>
     <div class="ask">
     {% csrf_token %}
-        {% if status == 0 %}
-            <button>Ask for a guide</button>
-        {% elif status == 1 %}
-            <div>본인 입니다.</div>
-        {% elif status == 2 %}
-            <div>가이드 매칭 진행중입니다.</div>
-        {% else %}
-            <div>알 수 없는 에러입니다.</div>
+        {% if status == 'invite' %}
+            <div>아직 상대가 확인 안눌렀어요. 기다려요</div>
+            <button class="cancel">취소해요</button>
+        {% endif %}
+        {% if status == 'receive' %}
+            <button class="accept">초대 받았네요. 초대에 응하세요!</button>
+            <button class="cancel">야 꺼져</button>
+        {% endif %}
+        {% if status == 'confirm' %}
+            <div>여행을 떠나세요!</div>
+            <button class="complete">여행이 끝나면 눌러주세요.</button>
+        {% endif %}
+        {% if status == 'complete' %}
+            <div>종료된 여행이에요...</div>
+            <button class="review">리뷰를 작성해주세요</button>
         {% endif %}
     </div>
     <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="/static/js/travel/user.js"></script>
+    <script src="/static/js/user/match.js"></script>
 </body>
 </html>

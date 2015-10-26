@@ -10,7 +10,7 @@ from travel.models import DefaultStation
 class MyUser(models.Model):
     user = models.ForeignKey(User, related_name="my_user")
     profile_picture = models.ImageField(max_length=1024, upload_to='static/profile/%Y/%m/%d/%h/%m/%s', blank=True)
-    gender = models.CharField(max_length=10, blank=True)
+    gender = models.CharField(max_length=10, blank=False, default='2')
     about_me = models.TextField(max_length=500, blank=True)
     cert_code = models.CharField(max_length=20, blank=True)
     is_auth = models.BooleanField(default=False, blank=False)

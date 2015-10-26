@@ -2,13 +2,27 @@ import re
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.widgets import Textarea
+from django.http.response import HttpResponseBadRequest
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from travel.models import DefaultStation
 from user.models import User
 
-options = []
-options.append((0, 'No Guide'))
-for station in DefaultStation.objects.all().order_by('station'):
-    options.append((station.station_code, station.station))
+options_place = []
+options_place.append((0, 'No Guide'))
+for station in DefaultStation.objects.all().exclude(line__in=['E', 'G', 'I', 'S', 'SU', 'U']).order_by('station'):
+    options_place.append((station.station_code, station))
+
+
+options_language = []
+options_language.append(('0', '한국어'))
+options_language.append(('1', 'English'))
+
+
+options_gender = []
+options_gender.append(('0', 'Man'))
+options_gender.append(('1', 'Woman'))
+options_gender.append(('2', 'Secret'))
+
 
 error_message = {
     'min_max': {
@@ -16,6 +30,7 @@ error_message = {
         'max_length': '최대 %(limit_value)d자 이하로 입력해주세요. (현재 %(show_value)d자)',
     },
     'about_me': {
+        'min_length': '최소 %(limit_value)d자 이상으로 입력해주세요. (현재 %(show_value)d자)',
         'max_length': '최대 %(limit_value)d자 이하로 입력해주세요. (현재 %(show_value)d자)',
     },
     'username': {
@@ -27,7 +42,7 @@ error_message = {
         'required': 'Password 항목을 입력해주세요.',
         'min_length': '최소 %(limit_value)d자 이상으로 입력해주세요. (현재 %(show_value)d자)',
     },
-    'place': {
+    'placeLanguage': {
         'invalid_choice': '올바른 선택이 아닙니다.',
         'invalid_list': '올바른 목록이 아닙니다.'
     },
@@ -92,9 +107,22 @@ class Clean:
     def name(name):
         if name != '':
             compiler = re.compile(r'^[A-Za-zㄱ-ㅣ가-힣]+')
-            if name != compiler.findall(name)[0]:
+            if compiler.findall(name):
+                if name != compiler.findall(name)[0]:
+                    raise forms.ValidationError('사용자 이름은 알파벳, 한글만 가능합니다.')
+            else:
                 raise forms.ValidationError('사용자 이름은 알파벳, 한글만 가능합니다.')
         return name
+
+    @staticmethod
+    def content(content):
+        if content != '':
+            compiler = re.compile(r'^[0-9A-Za-zㄱ-ㅣ가-힣]+')
+            if compiler.findall(content):
+                pass
+            else:
+                raise forms.ValidationError('내용은 알파벳, 한글, 숫자만 가능합니다.')
+        return content
 
 
 class SendForm(forms.Form):
@@ -135,22 +163,15 @@ class LostForm(forms.Form):
 class SignupForm(forms.Form):
     username = forms.CharField(label='ID', min_length=4, max_length=30, required=True,
                                error_messages=error_message['username'])
+    email = forms.EmailField(label="Email", required=True,
+                             widget=forms.EmailInput, error_messages=error_message['email'])
     password = forms.CharField(label="Password", min_length=6, max_length=30, required=True,
                                widget=forms.PasswordInput, error_messages=error_message['password'])
     password_check = forms.CharField(label="Password(again)", min_length=6, max_length=30, required=True,
                                      widget=forms.PasswordInput, error_messages=error_message['password'])
 
     def clean_password_check(self):
-        if 'password' in self.cleaned_data:
-            password = self.cleaned_data['password']
-            password_check = self.cleaned_data['password_check']
-            if password == password_check:
-                return password_check
-
-            else:
-                raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
-
-        raise forms.ValidationError('비밀번호를 정확히 입력해주세요.')
+        return Clean.password_check(self.cleaned_data['password'], self.cleaned_data['password_check'])
 
     def clean_username(self):
         return Clean.exist_username(self.cleaned_data['username'])
@@ -162,20 +183,23 @@ class UserInfoForm(forms.Form):
                                  error_messages=error_message['min_max'])
     last_name = forms.CharField(label="Last_Name", min_length=1, max_length=30, required=False,
                                 error_messages=error_message['min_max'])
-    gender = forms.CharField(label='Gender', min_length=1, max_length=5, required=False,
-                             error_messages=error_message['min_max'])
-    place = forms.MultipleChoiceField(label='Place', widget=forms.SelectMultiple, choices=options, required=False,
-                                      error_messages=error_message['place'])
+    gender = forms.ChoiceField(label='Gender', choices=options_gender, required=False)
+    place = forms.MultipleChoiceField(label='Place', widget=forms.SelectMultiple, choices=options_place,
+                                      required=False, error_messages=error_message['placeLanguage'])
+    language = forms.MultipleChoiceField(label='Language', widget=forms.SelectMultiple, choices=options_language,
+                                         required=False, error_messages=error_message['placeLanguage'])
     about_me = forms.CharField(label='About_Me', max_length=300, required=False,
                                widget=Textarea, error_messages=error_message['about_me'])
 
-    email = forms.EmailField(label="Email", widget=forms.EmailInput, required=False,)
+    email = forms.EmailField(label="Email", required=True,
+                             widget=forms.EmailInput, error_messages=error_message['email'])
     password = forms.CharField(label="Password(current)", min_length=6, max_length=30, required=True,
                                widget=forms.PasswordInput, error_messages=error_message['password'])
     change_password = forms.CharField(label="Password(change)", min_length=6, max_length=30, required=False,
                                       widget=forms.PasswordInput, error_messages=error_message['password'])
-    change_password_check = forms.CharField(label="Password(change again)", min_length=6, max_length=30, required=False,
-                                            widget=forms.PasswordInput, error_messages=error_message['password'])
+    change_password_check = forms.CharField(label="Password(change again)", min_length=6, max_length=30,
+                                            required=False, widget=forms.PasswordInput,
+                                            error_messages=error_message['password'])
 
     def clean_first_name(self):
         return Clean.name(self.cleaned_data['first_name'])
@@ -185,3 +209,11 @@ class UserInfoForm(forms.Form):
 
     def clean_change_password_check(self):
         return Clean.password_check(self.cleaned_data['change_password'], self.cleaned_data['change_password_check'])
+
+
+class ReviewForm(forms.Form):
+    content = forms.CharField(label='About_Me', min_length=1, max_length=300, required=True,
+                              widget=Textarea, error_messages=error_message['about_me'])
+
+    def clean_content(self):
+        return Clean.content(self.cleaned_data['content'])

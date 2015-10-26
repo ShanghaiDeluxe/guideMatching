@@ -22,11 +22,11 @@ This web page has been developed by J.
 </head>
 <body>
     <form action="." enctype="multipart/form-data" method="POST">
-        <input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
+        {% csrf_token %}
         <div class="profile">
-            {% if profile_picture %}
+            {% if user_list.1.profile_picture %}
                 <div class="profile_picture">
-                    <img src="/{{ profile_picture }}" alt="profile_picture" />
+                    <img src="/{{ user_list.1.profile_picture }}" alt="profile_picture" />
                 </div>
                 <div class="profile_delete">
                     <label for="id_profile_delete">Profile delete</label>
@@ -40,26 +40,34 @@ This web page has been developed by J.
             <label for="id_profile_picture">Profile picture:</label>
             <input id="id_profile_picture" name="profile_picture" type="file"/>
         </div>
+        <div class="username">
+            <div>ID: <a>{{ user_list.0.username}}</a></div>
+        </div>
         <div class="first_name">
             <label for="id_first_name">First_Name:</label>
             <input id="id_first_name" maxlength="30" name="first_name" type="text"
-                   value="{% if first_name %}{{ first_name }}{% endif %}"/>
+                   {% if user_list.0.first_name %}value="{{ user_list.0.first_name }}"{% endif %}/>
         </div>
         <div class="last_name">
             <label for="id_last_name">Last_Name:</label>
             <input id="id_last_name" maxlength="30" name="last_name" type="text"
-                   value="{% if last_name %}{{ last_name }}{% endif %}"/>
+                   {% if user_list.0.last_name %}value="{{ user_list.0.last_name }}"{% endif %}/>
         </div>
         <div class="gender">
             <label for="id_gender">Gender:</label>
-            <input id="id_gender" maxlength="5" name="gender" type="text"
-                   value="{% if gender %}{{ gender }}{% endif %}"/>
+            <select id="id_gender" name="gender">
+                {% for k, v in form.fields.gender.choices %}
+                    <option value="{{ k }}"{% if user_list.1.gender == k %}selected{% endif %}>{{ v }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="place">
             <label for="id_place">Place:</label>
             <select multiple="multiple" id="id_place" name="place">
                 {% for k, v in form.fields.place.choices %}
-                    <option value="{{ k }}"{% for place in places %}{% if place.station.station_code == k %}selected{% endif %}{% endfor %}>{{ v }}</option>
+                    <option value="{{ k }}"{% for place in places %}
+                            {% if place.station.station_code == k %}selected{% endif %}
+                    {% endfor %}>{% if k == 0 %}{{ v }}{% else %}Line{{ v.line }}, {{ v.station }}{% endif %}</option>
                 {% endfor %}
             </select>
         </div>
@@ -74,12 +82,12 @@ This web page has been developed by J.
         <div class="about_me">
             <label for="id_about_me">About_Me:</label>
             <textarea cols="40" id="id_about_me" maxlength="300" name="about_me"
-                      rows="10">{% if about_me %}{{ about_me }}{% endif %}</textarea>
+                      rows="10">{% if user_list.1.about_me %}{{ user_list.1.about_me }}{% endif %}</textarea>
         </div>
         <div class="email">
             <label for="id_email">Email:</label>
             <input id="id_email" name="email" type="email"
-                   value="{% if email %}{{ email }}{% endif %}"/>
+                   value="{% if user_list.0.email %}{{ user_list.0.email }}{% endif %}"/>
         </div>
         <div class="password">
             <label for="id_password">Password:</label>
@@ -95,6 +103,16 @@ This web page has been developed by J.
         </div>
         <input type="submit" value="제출하기" />
     </form>
+
+    {% if comment_list %}
+        {% for comment in comment_list %}
+            <div>
+                <img src="/{{ comment.2.profile_picture }}" alt="image">
+            </div>
+            <div>{{ comment.1.username }}</div>
+            <div>{{ comment.0.content }}</div>
+        {% endfor %}
+    {% endif %}
     <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
 </body>
 </html>

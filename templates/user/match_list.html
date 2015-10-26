@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<!--//
+This web page has been developed by J.
+ - jicjjang12@gmail.com
+-->
+<html lang="ko">
+<head>
+    <title>Show me the Seoul</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" type="image/ico" href="/static/img/favicon.ico" />
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/static/css/user/match_list.css">
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav></nav>
+    <ul class="guide_status">
+        <li class="call"><a>Call</a></li>
+        <li class="receive"><a>Receive</a></li>
+        <li class="complete"><a>Complete</a></li>
+    </ul>
+    <div class="container">
+        <div class="call">
+            <div>call list</div>
+            {% for call in calls %}
+                <div class="guide" data-target="{{ call.0.id }}/call_status/">
+                    <a>
+                        <img src="/{{ call.1.profile_picture }}" />
+                    </a>
+                    <a>{{ call.0.to_user.first_name }}</a>
+                    <a>{{ call.0.to_user.last_name }}</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="receive">
+        <div>receive list</div>
+            {% for receive in receives %}
+                <div class="guide" data-target="{{ receive.0.id }}/receive_status/">
+                    <a>
+                        <img src="/{{ receive.1.profile_picture }}" />
+                    </a>
+                    <a>{{ receive.0.from_user.first_name }}</a>
+                    <a>{{ receive.0.from_user.last_name }}</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="complete">
+            <div>complete list</div>
+            <div>call</div>
+            {% for before_travel in before_travels1 %}
+                <div class="guide" data-target="{{ before_travel.0.id }}/complete_status/">
+                    <a>
+                        <img src="/{{ before_travel.1.profile_picture }}" />
+                    </a>
+                    <a>{{ before_travel.0.to_user.first_name }}</a>
+                    <a>{{ before_travel.0.to_user.last_name }}</a>
+                </div>
+            {% endfor %}
+            <div>receive</div>
+            {% for before_travel in before_travels2 %}
+                <div class="guide" data-target="{{ before_travel.0.id }}/complete_status/">
+                    <a>
+                        <img src="/{{ before_travel.1.profile_picture }}" />
+                    </a>
+                    <a>{{ before_travel.0.from_user.first_name }}</a>
+                    <a>{{ before_travel.0.from_user.last_name }}</a>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <footer></footer>
+    <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/static/js/user/match_list.js"></script>
+</body>
+</html>

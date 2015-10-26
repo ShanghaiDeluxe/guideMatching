@@ -38,6 +38,8 @@ This web page has been developed by J.
             <a>{% if user_list.1.sex %}{{ user_list.1.sex }}{% endif %}</a>
             <a>{% if user_list.1.about_me %}{{ user_list.1.about_me }}{% endif %}</a>
             <a>{{ user_list.1.updated }}</a>
+            {% if user_list.3 %}<a>이 가이드와 과거 매칭 경험이 있습니다.</a>{% endif %}
+            {% if user_list.2 %}<a>현재 가이드 매칭 진행중입니다...</a>{% endif %}
         </div>
     {% endfor %}
     </div>
