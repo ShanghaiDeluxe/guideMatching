@@ -1,118 +1,157 @@
-<!DOCTYPE HTML>
-<!--//
-This web page has been developed by J.
- - jicjjang12@gmail.com
--->
-<html lang="ko">
-<head>
-    <title>Show me the Seoul</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="shortcut icon" type="image/ico" href="/static/img/favicon.ico" />
 
-    <!--[if lt IE 9]>
-    <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
-    <![endif]-->
+{% extends "base.html" %}
+
+{% block css %}
     <link rel="stylesheet" href="/static/css/user/user.css">
+{% endblock %}
 
-    <!--[if lt IE 9]>
-    <script src="/static/vendor/respond/dest/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
-    <form action="." enctype="multipart/form-data" method="POST">
-        {% csrf_token %}
-        <div class="profile">
+{% block nav %}
+    <nav>
+        <div class="container-nav">
+            <div class="back"><a href="/" class="icon-angle-left"></a></div>
+            <div class="title">My page</div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="form">
+        <form action="." enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
             {% if user_list.1.profile_picture %}
-                <div class="profile_picture">
+                <div class="profile-picture">
                     <img src="/{{ user_list.1.profile_picture }}" alt="profile_picture" />
+                    <a class="icon-check-empty"></a>
+                    <a class="icon-camera"></a>
                 </div>
-                <div class="profile_delete">
-                    <label for="id_profile_delete">Profile delete</label>
-                    <input id="id_profile_delete" type="checkbox" name="picture_delete" value="1" />
+                <div class="input input-profile-delete">
+                    <input id="id_profile_delete" type="checkbox" name="picture_delete" value="1"/>
                 </div>
             {% else %}
-                <div class="profile_picture">
+                <div class="profile-picture">
                     <img src="/{{ default_picture }}" alt="default_picture" />
+                    <a class="icon-check-empty"></a>
+                    <a class="icon-camera"></a>
                 </div>
             {% endif %}
-            <label for="id_profile_picture">Profile picture:</label>
-            <input id="id_profile_picture" name="profile_picture" type="file"/>
-        </div>
-        <div class="username">
-            <div>ID: <a>{{ user_list.0.username}}</a></div>
-        </div>
-        <div class="first_name">
-            <label for="id_first_name">First_Name:</label>
-            <input id="id_first_name" maxlength="30" name="first_name" type="text"
-                   {% if user_list.0.first_name %}value="{{ user_list.0.first_name }}"{% endif %}/>
-        </div>
-        <div class="last_name">
-            <label for="id_last_name">Last_Name:</label>
-            <input id="id_last_name" maxlength="30" name="last_name" type="text"
-                   {% if user_list.0.last_name %}value="{{ user_list.0.last_name }}"{% endif %}/>
-        </div>
-        <div class="gender">
-            <label for="id_gender">Gender:</label>
-            <select id="id_gender" name="gender">
-                {% for k, v in form.fields.gender.choices %}
-                    <option value="{{ k }}"{% if user_list.1.gender == k %}selected{% endif %}>{{ v }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="place">
-            <label for="id_place">Place:</label>
-            <select multiple="multiple" id="id_place" name="place">
-                {% for k, v in form.fields.place.choices %}
-                    <option value="{{ k }}"{% for place in places %}
-                            {% if place.station.station_code == k %}selected{% endif %}
-                    {% endfor %}>{% if k == 0 %}{{ v }}{% else %}Line{{ v.line }}, {{ v.station }}{% endif %}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="language">
-            <label for="id_language">Language:</label>
-            <select multiple="multiple" id="id_language" name="language">
-                {% for k, v in form.fields.language.choices %}
-                    <option value="{{ k }}"{% for language in languages %}{% if language.language == k %}selected{% endif %}{% endfor %}>{{ v }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="about_me">
-            <label for="id_about_me">About_Me:</label>
-            <textarea cols="40" id="id_about_me" maxlength="300" name="about_me"
-                      rows="10">{% if user_list.1.about_me %}{{ user_list.1.about_me }}{% endif %}</textarea>
-        </div>
-        <div class="email">
-            <label for="id_email">Email:</label>
-            <input id="id_email" name="email" type="email"
-                   value="{% if user_list.0.email %}{{ user_list.0.email }}{% endif %}"/>
-        </div>
-        <div class="password">
-            <label for="id_password">Password:</label>
-            <input id="id_password" maxlength="30" name="password" type="password" />
-        </div>
-        <div class="change_password">
-            <label for="id_change_password">Change Password:</label>
-            <input id="id_change_password" maxlength="30" name="change_password" type="password" />
-        </div>
-        <div class="change_password_check">
-            <label for="id_change_password_check">Change Password(again):</label>
-            <input id="id_change_password_check" maxlength="30" name="change_password_check" type="password" />
-        </div>
-        <input type="submit" value="제출하기" />
-    </form>
-
-    {% if comment_list %}
-        {% for comment in comment_list %}
-            <div>
-                <img src="/{{ comment.2.profile_picture }}" alt="image">
+            <div class="input input-profile-picture">
+                <input id="id_profile_picture" name="profile_picture" type="file"/>
             </div>
-            <div>{{ comment.1.username }}</div>
-            <div>{{ comment.0.content }}</div>
-        {% endfor %}
+            <div class="input input-first-name">
+                <label for="id_first_name">First Name</label>
+                <input id="id_first_name" maxlength="30" name="first_name" type="text"
+                       {% if user_list.0.first_name %}value="{{ user_list.0.first_name }}"{% endif %}/>
+            </div>
+            <div class="input input-last-name">
+                <label for="id_last_name">Last Name</label>
+                <input id="id_last_name" maxlength="30" name="last_name" type="text"
+                       {% if user_list.0.last_name %}value="{{ user_list.0.last_name }}"{% endif %}/>
+            </div>
+            <div class="input input-gender">
+                <label for="id_gender">Gender</label>
+                <select id="id_gender" name="gender">
+                    {% for k, v in form.fields.gender.choices %}
+                        <option value="{{ k }}"{% if user_list.1.gender == k %}selected{% endif %}>{{ v }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input input-place">
+                <label for="id_place">Place</label>
+                <select multiple="multiple" id="id_place" name="place">
+                    {% for k, v in form.fields.place.choices %}
+                        <option value="{{ k }}"{% for place in places %}
+                                {% if place.station.station_code == k %}selected{% endif %}
+                        {% endfor %}>{% if k == 0 %}{{ v }}{% else %}Line{{ v.line }}, {{ v.station }}{% endif %}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input input-language">
+                <label for="id_language">Language</label>
+                <select multiple="multiple" id="id_language" name="language">
+                    {% for k, v in form.fields.language.choices %}
+                        <option value="{{ k }}"{% for language in languages %}{% if language.language == k %}selected{% endif %}{% endfor %}>{{ v }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input input-about-me">
+                <label for="id_about_me">About Me</label>
+                <textarea cols="40" id="id_about_me" maxlength="300" name="about_me"
+                          rows="10">{% if user_list.1.about_me %}{{ user_list.1.about_me }}{% endif %}</textarea>
+            </div>
+            <div class="input input-email">
+                <label for="id_email">Email</label>
+                <input id="id_email" name="email" type="email"
+                       value="{% if user_list.0.email %}{{ user_list.0.email }}{% endif %}"/>
+            </div>
+            <div class="input input-password">
+                <label for="id_password">Password</label>
+                <input id="id_password" maxlength="30" name="password" type="password" />
+            </div>
+            <div class="input input-change-password">
+                <label for="id_change_password">Change Password</label>
+                <input id="id_change_password" maxlength="30" name="change_password" type="password" />
+            </div>
+            <div class="input input-change-password-check">
+                <label for="id_change_password_check">Confirm Password</label>
+                <input id="id_change_password_check" maxlength="30" name="change_password_check" type="password" />
+            </div>
+            <div class="input input-submit">
+                <input type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block content-sub %}
+    <div class="container container-sub">
+        {% if comment_list %}
+            {% for comment in comment_list %}
+                <div class="guide">
+                    <div class="profile-picture">
+                        <img src="/{{ comment.2.profile_picture }}" alt="image">
+                    </div>
+                    <div class="date">{{ comment.0.created|date:"Y / M / d" }}</div>
+                    <div class="username">{{ comment.1.username }}</div>
+                    <div class="content">{{ comment.0.content }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer>
+        <div class="home"><a class="icon-home" href="/"></a></div>
+        <div class="user"><a class="icon-user" href="/user/"></a></div>
+        <div class="users"><a class="icon-users" href="/user/match_list/"></a></div>
+    </footer>
+{% endblock %}
+
+{% block errors %}
+    {% if form.first_name.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.first_name.0 }}");}; </script>
+    {% elif form.last_name.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.last_name.0 }}");}; </script>
+    {% elif form.gender.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.gender.0 }}");}; </script>
+    {% elif form.place.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.place.0 }}");}; </script>
+    {% elif form.language.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.language.0 }}");}; </script>
+    {% elif form.about_me.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.about_me.0 }}");}; </script>
+    {% elif form.password.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.password.0 }}");}; </script>
+    {% elif form.change_password.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.change_password.0 }}");}; </script>
+    {% elif form.change_password_check.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.change_password_check.0 }}");}; </script>
+    {% elif status == 1 %}
+        <script>window.onload=function() {alert("You've changed information!");}; </script>
     {% endif %}
+{% endblock %}
+
+{% block js %}
     <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
-</body>
-</html>
+    <script src="/static/js/user/user.js"></script>
+{% endblock %}

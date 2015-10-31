@@ -1,6 +1,6 @@
 import re
 from django import forms
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.forms.widgets import Textarea
 from django.http.response import HttpResponseBadRequest
 from rest_framework.status import HTTP_400_BAD_REQUEST
@@ -16,12 +16,13 @@ for station in DefaultStation.objects.all().exclude(line__in=['E', 'G', 'I', 'S'
 options_language = []
 options_language.append(('0', '한국어'))
 options_language.append(('1', 'English'))
+options_language.append(('2', '日本語'))
+options_language.append(('3', '中国'))
 
 
 options_gender = []
 options_gender.append(('0', 'Man'))
 options_gender.append(('1', 'Woman'))
-options_gender.append(('2', 'Secret'))
 
 
 error_message = {
@@ -67,7 +68,7 @@ class Clean:
         Clean._username(username)
         try:
             User.objects.get(username=username)
-        except ObjectDoesNotExist:
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
             return username
         raise forms.ValidationError('이미 사용 중인 사용자 정보입니다.')
 
@@ -76,22 +77,14 @@ class Clean:
         Clean._username(username)
         try:
             User.objects.get(username=username)
-        except ObjectDoesNotExist:
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
             raise forms.ValidationError('없는 사용자 정보입니다.')
         return username
 
     @staticmethod
-    def exist_email(email):
-        try:
-            User.objects.get(email=email)
-        except ObjectDoesNotExist:
-            return email
-        raise forms.ValidationError('이미 사용 중인 사용자 정보입니다.')
-
-    @staticmethod
     def not_exist_email(email):
         try:
-            User.objects.get(email=email)
+            User.objects.filter(email=email)
         except ObjectDoesNotExist:
             raise forms.ValidationError('없는 사용자 정보입니다.')
         return email

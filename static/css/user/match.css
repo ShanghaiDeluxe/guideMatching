@@ -1,3 +1,611 @@
+/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+  display: block;
+}
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+[hidden],
+template {
+  display: none;
+}
+a {
+  background: transparent;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+b,
+strong {
+  font-weight: bold;
+}
+dfn {
+  font-style: italic;
+}
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+mark {
+  background: #ff0;
+  color: #000;
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+img {
+  border: 0;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+figure {
+  margin: 1em 40px;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+pre {
+  overflow: auto;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+button {
+  overflow: visible;
+}
+button,
+select {
+  text-transform: none;
+}
+button,
+html input[type="button"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+button input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+input {
+  line-height: normal;
+}
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+legend {
+  border: 0;
+  padding: 0;
+}
+textarea {
+  overflow: auto;
+}
+optgroup {
+  font-weight: bold;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+/**
+ * Copyright (c) 2015 Spoqa, Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 700;
+  src: local('SpoqaHanSans-Bold'), local('SpoqaHanSans-Bold'), url(/static/font/SpoqaHanSans-Bold.eot) format('eot'), url(/static/font/SpoqaHanSans-Bold.ttf) format('truetype'), url(/static/font/SpoqaHanSans-Bold.woff) format('woff');
+}
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 400;
+  src: local('SpoqaHanSans-Regular'), local('SpoqaHanSans-Regular'), url(/static/font/SpoqaHanSans-Regular.eot) format('eot'), url(/static/font/SpoqaHanSans-Regular.ttf) format('truetype'), url(/static/font/SpoqaHanSans-Regular.woff) format('woff');
+}
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 200;
+  src: local('SpoqaHanSans-Thin'), local('SpoqaHanSans-Thin'), url(/static/font/SpoqaHanSans-Thin.eot) format('eot'), url(/static/font/SpoqaHanSans-Thin.ttf) format('truetype'), url(/static/font/SpoqaHanSans-Thin.woff) format('woff');
+}
+@font-face {
+  font-family: 'fontello';
+  src: url('/static/font/fontello.eot?20144234');
+  src: url('/static/font/fontello.eot?20144234#iefix') format('embedded-opentype'), url('/static/font/fontello.woff?20144234') format('woff'), url('/static/font/fontello.ttf?20144234') format('truetype'), url('/static/font/fontello.svg?20144234#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?41398131#fontello') format('svg');
+  }
+}
+*/
+[class^="icon-"]:before,
+[class*=" icon-"]:before,
+[class^="icon-"]:after,
+[class*=" icon-"]:after {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+.icon-camera:before {
+  content: '\e800';
+}
+/* '' */
+.icon-user:before {
+  content: '\e801';
+}
+/* '' */
+.icon-users:before {
+  content: '\e802';
+}
+/* '' */
+.icon-search:before {
+  content: '\e803';
+}
+/* '' */
+.icon-angle-left:before {
+  content: '\e804';
+}
+/* '' */
+.icon-check:before {
+  content: '\e805';
+}
+/* '' */
+.icon-check-empty:before {
+  content: '\e806';
+}
+/* '' */
+.icon-comment:before {
+  content: '\e807';
+}
+/* '' */
+.icon-comment-after:after {
+  content: '\e807';
+}
+/* '' */
+.icon-home:before {
+  content: '\e808';
+}
+/* '' */
+.icon-angle-right:before {
+  content: '\e809';
+}
+/* '' */
+.icon-angle-right-after:after {
+  content: '\e809';
+}
+/* '' */
+.icon-pencil:before {
+  content: '\e80a';
+}
+/* '' */
+.icon-train:before {
+  content: '\e80b';
+}
+/* '' */
+.icon-newspaper:before {
+  content: '\e80d';
+}
+/* '' */
+.icon-attention-alt:before {
+  content: '\e80e';
+}
+/* '' */
+.icon-help:before {
+  content: '\e80f';
+}
+/* '' */
+html,
+body,
+pre,
+code {
+  font-family: 'Spoqa Han Sans', serif;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 400;
+}
+section,
+p,
+ul,
+li,
+input {
+  margin: 0;
+  padding: 0;
+}
+ul,
+li {
+  font-size: 0;
+  list-style: none;
+  text-decoration: none;
+}
+a {
+  outline: 0 !important;
+  cursor: pointer;
+}
+a,
+a:hover,
+a:visited,
+a:link,
+a:active {
+  text-decoration: none !important;
+}
+input,
+button,
+textarea {
+  outline: 0;
+  border: none;
+  border-radius: 1px;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  -o-appearance: none !important;
+}
+nav {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  width: 100%;
+  background: #FF6666;
+  color: #fff;
+}
+nav div.container-nav {
+  height: 55px;
+  margin: 0 10%;
+}
+nav div.container-nav div {
+  vertical-align: top;
+}
+nav div.container-nav div.back {
+  position: absolute;
+  top: 13px;
+  left: 33px;
+  font-size: 25px;
+}
+nav div.container-nav div.back a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+}
+nav div.container-nav div.back a:before {
+  text-align: left;
+}
+nav div.container-nav div.title,
+nav div.container-nav div.title-review {
+  min-width: 256px;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 15px;
+}
+div.profile-picture {
+  overflow: hidden;
+  border: 1px solid #BABABA;
+  border-radius: 100px;
+  background: #F8F8F8;
+}
+div.profile-picture img {
+  width: 100%;
+  height: 100%;
+}
+div.guide {
+  min-height: 70px;
+  padding: 15px 0 10px 0;
+  font-size: 12px;
+  border-bottom: 1px solid #D7D7D7;
+}
+div.guide > div.profile-picture {
+  float: left;
+  width: 60px;
+  height: 60px;
+}
+div.guide > div.profile-picture:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+div.guide > div.date {
+  float: right;
+  color: #D7D7D7;
+}
+div.guide > div.date:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+div.guide > div.username {
+  margin-left: 78px;
+}
+div.guide > div.station,
+div.guide div.content,
+div.guide div.comment {
+  margin: 5px 0 0 78px;
+  overflow: hidden;
+}
+div.guide > div.station {
+  max-height: 12px;
+}
+div.guide > div.content {
+  max-height: 74px;
+}
+div.guide > div.comment {
+  color: #aaa;
+}
+div.container > div.form form div.input input,
+div.container > div.form form div.button input,
+div.container > div.form form div.input button,
+div.container > div.form form div.button button,
+div.container > div.form form div.input textarea,
+div.container > div.form form div.button textarea,
+div.container > div.form form div.input select,
+div.container > div.form form div.button select {
+  width: 100%;
+  margin: 7px 0;
+  padding: 5px;
+}
+div.container > div.form form div.input input,
+div.container > div.form form div.button input,
+div.container > div.form form div.input button,
+div.container > div.form form div.button button {
+  height: 34px;
+}
+div.container > div.form form div.input textarea,
+div.container > div.form form div.button textarea {
+  height: 134px;
+}
+div.container > div.form form div.input option,
+div.container > div.form form div.button option {
+  height: 20px;
+}
+div.container > div.form form > div.input label {
+  display: block;
+}
+div.container > div.form form > div.input input {
+  line-height: 30px;
+}
+div.container > div.form form > div.input input[type="submit"] {
+  color: #fff;
+  line-height: 24px;
+}
+div.container.container-main {
+  margin: 0 10%;
+  padding-top: 55px;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  min-width: 320px;
+  height: 55px;
+  background: #f8f8f8;
+  text-align: center;
+}
+footer div {
+  display: inline-block;
+  margin: 8px 30px 0 30px;
+}
+footer div a {
+  display: block;
+  font-size: 34px;
+}
+footer div a,
+footer div a:active,
+footer div a:hover,
+footer div a:visited,
+footer div a:link {
+  color: #aaa;
+}
 .inactive {
   display: none;
+}
+div.container.container-main {
+  margin: 0 10% 85px 10%;
+}
+div.container.container-main > div.user > div.profile-picture {
+  width: 136px;
+  height: 136px;
+  margin: 27px auto;
+}
+div.container.container-main > div.user label {
+  display: block;
+  color: #aaa;
+}
+div.container.container-main > div.user div.input,
+div.container.container-main > div.user div.textarea,
+div.container.container-main > div.user div.select {
+  border: 1px solid #aaa;
+  margin: 7px 0;
+  padding: 5px;
+}
+div.container.container-main > div.user > div.select {
+  max-height: 100px;
+  overflow: scroll;
+}
+div.container.container-main > div.user > div.select a {
+  display: block;
+}
+div.container.container-main > div.ask button {
+  width: 100%;
+  margin: 7px 0;
+  padding: 5px;
+  background: #ff6666;
+  color: #fff;
+}
+div.container.container-main > div.ask > div.receive {
+  width: 100%;
+  min-width: 256px;
+  text-align: center;
+}
+div.container.container-main > div.ask > div.receive button {
+  width: 48%;
+  min-width: 122px;
+}
+div.container.container-sub {
+  margin: 0 10%;
+  padding-top: 55px;
+}
+div.container.container-sub form {
+  width: 100%;
+  min-width: 260px;
+  margin-top: 30px;
+  text-align: center;
+}
+div.container.container-sub form div.textarea textarea {
+  width: 100%;
+  margin: 7px 0;
+  padding: 5px;
+  border: 1px solid #aaa;
+}
+div.container.container-sub form div.input {
+  display: inline-block;
+  width: 49%;
+  min-width: 125px;
+}
+div.container.container-sub form div.input input,
+div.container.container-sub form div.input button {
+  width: 100%;
+  margin: 7px 0;
+  padding: 5px;
+  background: #ff6666;
+  color: #fff;
 }

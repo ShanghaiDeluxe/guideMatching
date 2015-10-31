@@ -25,7 +25,7 @@ class MatchTravel(models.Model):
 
 class Comment(models.Model):
     content = models.TextField(max_length=500)
-    when = models.ForeignKey(MatchTravel, related_name="matchFrom", unique=True)
+    when = models.OneToOneField(MatchTravel, related_name="matchForm")
     extra = models.TextField(blank=True)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)

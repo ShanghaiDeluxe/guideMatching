@@ -1,0 +1,39 @@
+@import "../others/common";
+
+div.container {
+    &.container-main {
+        margin:0 10% 30px 10%;
+        > div.user {
+            > div.profile-picture {
+                width:136px;
+                height:136px;
+                margin:27px auto;
+            }
+            label {
+                display:block;
+                color:#aaa;
+            }
+            div.input, div.textarea, div.select {
+                border:1px solid #aaa;
+                margin:7px 0;
+                padding:5px;
+            }
+            > div.select {
+                max-height:100px;
+                overflow:scroll;
+                a {
+                    display:block;
+                }
+            }
+        }
+        > div.ask {
+            button {
+                width:100%;
+                margin:7px 0;
+                padding:5px;
+                background:#ff6666;
+                color:#fff;
+            }
+        }
+    }
+}

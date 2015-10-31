@@ -1,0 +1,49 @@
+@import "../others/common";
+
+div.container {
+    &.container-main {
+        div.line, div.station, div.guide_length {
+            text-align:center;
+        }
+        div.line {
+            margin-top:40px;
+            > a.icon {
+                display: inline-block;
+                width: 21px;
+                height: 24px;
+                margin: 5px;
+                color: #fff;
+                border-radius: 25px;
+                padding: 8px 6px 0 5px;
+                font-size: 15px;
+                &.icon-1 {background:#294CA3;}
+                &.icon-2 {background:#39D969;}
+                &.icon-3 {background:#FF9802;}
+                &.icon-4 {background:#06E5F7;}
+                &.icon-5 {background:#A550C7;}
+                &.icon-6 {background:#CC8D2D;}
+                &.icon-7 {background:#859B1B;}
+                &.icon-8 {background:#F23EB3;}
+                &.icon-9 {background:#BA9F14;}
+                &.icon-B {background:#F7D01C;}
+                &.icon-A {background:#2BCEC5;}
+                &.icon-K {background:#29A5AD;}
+            }
+        }
+        div.station {
+            margin: 12px 0;
+        }
+        div.guide_length {
+            font-size: 12px;
+        }
+        div.guides {
+            margin-top:40px;
+            border-top:1px solid #D7D7D7;
+            div.guide {
+                div.data {
+                    margin-left: 78px;
+                }
+            }
+        }
+    }
+}

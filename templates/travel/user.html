@@ -1,73 +1,75 @@
-<!DOCTYPE HTML>
-<!--//
-This web page has been developed by J.
- - jicjjang12@gmail.com
--->
-<html lang="ko">
-<head>
-    <title>Show me the Seoul</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="shortcut icon" type="image/ico" href="/static/img/favicon.ico" />
 
-    <!--[if lt IE 9]>
-    <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
-    <![endif]-->
+{% extends "base.html" %}
+
+{% block css %}
     <link rel="stylesheet" href="/static/css/travel/user.css">
+{% endblock %}
 
-    <!--[if lt IE 9]>
-    <script src="/static/vendor/respond/dest/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
-    <div class="guide">
+{% block nav %}
+    <nav>
+        <div class="container-nav">
+            <div class="back"><a href="/" class="icon-angle-left"></a></div>
+            <div class="title">Search Tour Spot</div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="user">
         {% if user_list.1.profile_picture %}
-            <div class="profile_picture">
+            <div class="profile-picture">
                 <img src="/{{ user_list.1.profile_picture }}" alt="profile_picture" />
             </div>
         {% else %}
-            <div class="profile_picture">
+            <div class="profile-picture">
                 <img src="/{{ default_picture }}" alt="default_picture" />
             </div>
         {% endif %}
-        <div class="username">{{ user_list.0.username }}</div>
-        <div class="first_name">{% if user_list.0.first_name %}{{ user_list.0.first_name }}{% endif %}</div>
-        <div class="last_name">{% if user_list.0.last_name %}{{ user_list.0.last_name }}{% endif %}</div>
-        <div class="gender">{% if user_list.1.gender %}
-            {% if user_list.1.gender == 0 %}남자
-            {% elif user_list.1.gender == 1 %}여자
-            {% else %}비밀
+        <label for="first-name">First Name</label>
+        <div id="first-name" class="input first-name">{% if user_list.0.first_name %}{{ user_list.0.first_name }}{% endif %}</div>
+        <label for="last-name">Last Name</label>
+        <div id="last-name" class="input last-name">{% if user_list.0.last_name %}{{ user_list.0.last_name }}{% endif %}</div>
+        <label for="gender">Gender</label>
+        <div id="gender" class="input gender">{% if user_list.1.gender %}
+            {% if user_list.1.gender == '0' %}남자
+            {% elif user_list.1.gender == '1' %}여자
             {% endif %}{% endif %}
         </div>
-        <div class="place">
+        <label for="place">Place</label>
+        <div id="place" class="select place">
             {% if places %}{% for place in places %}
                 <a>Line {{place.station.line}}, {{ place.station.station }}역</a>
             {% endfor %}{% endif %}
         </div>
-        <div class="languages">
+        <div id="languages" class="select languages">
             {% if languages %}{% for language in languages %}{% if language.language == '0' %}
                 <a>한국어</a>
-            {% else %}
+            {% elif language.language == '1' %}
                 <a>English</a>
+            {% elif language.language == '2' %}
+                <a>日本語</a>
+            {% elif language.language == '3' %}
+                <a>中国</a>
             {% endif %}{% endfor %}{% endif %}
         </div>
-        <div class="about_me">{% if user_list.1.about_me %}{{ user_list.1.about_me }}{% endif %}</div>
-        <div class="email">{% if user_list.0.email %}{{ user_list.0.email }}{% endif %}</div>
+        <label for="about-me">About Me</label>
+        <div id="about-me" class="textarea about-me">{% if user_list.1.about_me %}{{ user_list.1.about_me }}{% endif %}</div>
+        <label for="email">Email</label>
+        <div id="email" class="input email">{% if user_list.0.email %}{{ user_list.0.email }}{% endif %}</div>
     </div>
     <div class="ask">
-    {% csrf_token %}
+        {% csrf_token %}
         {% if status == 0 %}
             <button>Ask for a guide</button>
         {% elif status == 1 %}
             <div>본인 입니다.</div>
         {% elif status == 2 %}
             <div>가이드 매칭 진행중입니다.</div>
-        {% else %}
-            <div>알 수 없는 에러입니다.</div>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block js %}
     <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/travel/user.js"></script>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,37 @@
+@import "./others/common";
+
+div.container {
+    > div.form {
+        margin-top:22%;
+        form {
+            div.input {
+                label {
+                    color:#aaa;
+                }
+                input {
+                    &[type="submit"] {
+                        background: #ff6666;
+                    }
+                }
+                &-username, &-password, &-password-check, &-email, &-cert-code {
+                    input {
+                        border: 1px solid #aaa;
+                    }
+                }
+            }
+            div.button {
+                button {
+                    text-align:center;
+                    background: #ff6666;
+                    color:#fff;
+                }
+                &-code {
+                    margin-left:55%;
+                }
+            }
+        }
+    }
+    &.container-main {
+        padding-top:25px;
+    }
+}

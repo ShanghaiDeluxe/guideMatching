@@ -1,0 +1,221 @@
+@import "../../vendor/normalize-less/normalize";
+@import "font-spoqa";
+@import "fontello";
+
+.background-image( @url ) {
+    background:url( @url ) no-repeat;
+    text-indent:-999px;
+    overflow:hidden;
+}
+
+.background-size( @width, @height ) {
+    background-size:@width @height;
+    width:@width; height:@height;
+}
+
+.clearfix() {
+    content:'';
+    display:table;
+    clear:both;
+}
+
+.opacity( @op ) {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=@{op})"; // IE-8
+    filter: alpha(opacity=@op); // IE-7
+    opacity: @op / 100; // all-browser
+}
+
+html, body, pre, code {
+    font-family:'Spoqa Han Sans', serif;
+}
+
+html, body {
+    height:100%;
+    margin:0;
+    padding:0;
+    font-size:15px; font-weight:400;
+}
+
+section, p, ul, li, input {
+    margin:0;
+    padding:0;
+}
+ul, li {
+    font-size:0;
+    list-style:none;
+    text-decoration:none;
+}
+
+a {
+    outline:0 !important;
+    cursor: pointer;
+}
+
+a, a:hover, a:visited, a:link, a:active {
+    text-decoration:none !important;
+}
+
+input, button, textarea {
+    outline:0;
+    border: none;
+    border-radius: 1px;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    -ms-appearance: none !important;
+    -o-appearance: none !important;
+}
+
+nav {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    width: 100%;
+    background:#FF6666;
+    color:#fff;
+    div.container-nav {
+        height:55px;
+        margin:0 10%;
+        div {
+            vertical-align:top;
+            &.back {
+                position:absolute;
+                top:13px;
+                left:33px;
+                font-size:25px;
+                a {
+                    display:inline-block;
+                    width:40px;
+                    height:40px;
+                    color:#fff;
+                    &:before {
+                        text-align:left;
+                    }
+                }
+            }
+            &.title, &.title-review {
+                min-width:256px;
+                padding-top:20px;
+                text-align:center;
+                font-size:15px;
+            }
+        }
+    }
+}
+
+
+div.profile-picture {
+    overflow: hidden;
+    border: 1px solid #BABABA;
+    border-radius: 100px;
+    background: #F8F8F8;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+div.guide {
+    min-height:70px;
+    padding:15px 0 10px 0;
+    font-size:12px;
+    border-bottom:1px solid #D7D7D7;
+    > div.profile-picture {
+        float:left;
+        width:60px;
+        height:60px;
+        &:after {
+            .clearfix();
+        }
+    }
+    > div.date {
+        float:right;
+        color:#D7D7D7;
+        &:after {
+            .clearfix();
+        }
+    }
+    > div.username {
+        margin-left:78px;
+    }
+    > div.station, div.content, div.comment {
+        margin:5px 0 0 78px;
+        overflow:hidden;
+    }
+    > div.station {
+        max-height:12px;
+    }
+    > div.content {
+        max-height:74px;
+    }
+    > div.comment {
+        color:#aaa;
+    }
+}
+div.container {
+    > div.form {
+        form {
+            div.input, div.button {
+                input, button, textarea, select {
+                    width:100%;
+                    margin:7px 0;
+                    padding:5px;
+                }
+                input, button {
+                    height:34px;
+                }
+                textarea {
+                    height:134px;
+                }
+                option {
+                    height: 20px;
+                }
+            }
+            > div.input {
+                label {
+                    display:block;
+                }
+                input {
+                    line-height: 30px;
+                    &[type="submit"] {
+                        color:#fff;
+                        line-height:24px;
+                    }
+                }
+            }
+        }
+    }
+    &.container-main {
+        margin:0 10%;
+        padding-top:55px;
+    }
+}
+
+footer {
+    position:fixed;
+    bottom:0;
+    width:100%;
+    min-width:320px;
+    height:55px;
+    background:#f8f8f8;
+    text-align:center;
+    div {;
+        display:inline-block;
+        margin:8px 30px 0 30px;
+        a {
+            display:block;
+            font-size:34px;
+            &, &:active, &:hover, &:visited, &:link {
+                color:#aaa;
+            }
+        }
+        &.home {
+        }
+        &.user {
+        }
+        &.users {
+        }
+    }
+}

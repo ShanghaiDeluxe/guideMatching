@@ -1,22 +1,28 @@
 (function ($){
     var
         initialize = function () {
-            $('div.ask > button.cancel').bind('click', function (e) {
-                if (confirm('정말 취소하실껀가요?')) { ask(e, 'cancel/'); }
+            $('div.ask > button.cancel, div.ask > div.receive > button.cancel').bind('click', function (e) {
+                if (confirm('Are you sure that you cancel a request?')) { ask(e, 'cancel/'); }
             });
-            $('div.ask > button.accept').bind('click', function (e) {
-                if (confirm('수락 하실껀가요?')) { ask(e, 'accept/'); }
+            $('div.ask > button.accept, div.ask > div.receive > button.accept').bind('click', function (e) {
+                if (confirm('Are you sure that you accept a request?')) { ask(e, 'accept/'); }
             });
             $('div.ask > button.complete').bind('click', function (e) {
-                if (confirm('여행이 끝나셨나요?')) { ask(e, 'complete/'); }
+                if (confirm('Did you finish travel with this user?')) { ask(e, 'complete/'); }
             });
-            $('div.container > div.ask > button.review').bind('click', function (e) {
-                $('div.comment-container').removeClass('inactive');
-                $('div.container').addClass('inactive');
+            $('div.container-main > div.ask > button.review').bind('click', function (e) {
+                $('nav > div.container-nav > div.title-review').removeClass('inactive');
+                $('nav > div.container-nav > div.title').addClass('inactive');
+                $('div.container-sub').removeClass('inactive');
+                $('div.container-main').addClass('inactive');
             });
-            $('div.comment-container > div.ask > button.review').bind('click', function (e) {
-                $('div.comment-container').addClass('inactive');
-                $('div.container').removeClass('inactive');
+            $('div.container-sub > form > div.ask > button.later').bind('click', function (e) {
+                e.preventDefault();
+                $('nav > div.container-nav > div.title').removeClass('inactive');
+                $('nav > div.container-nav > div.title-review').addClass('inactive');
+                $('div.container-sub').addClass('inactive');
+                $('div.container-main').removeClass('inactive');
+                return false;
             });
             $('input.comment-submit').bind('click', addComment);
         },
@@ -33,13 +39,13 @@
 
                     $('div.ask').children('button').remove();
                     if (res['result'] == 0) {
-                        $('div.ask').html('<div>요청이 실패했습니다.</div>');
+                        $('div.ask').html('<div>Failed to request.</div>');
                     } else if (res['result'] == 1) {
-                        $('div.ask').html('<div>취소 되었습니다.</div>');
+                        $('div.ask').html("<div>You've canceled a  request. Maybe next time :/</div>");
                     } else if (res['result'] == 2) {
-                        $('div.ask').html('<div>수락 되었습니다.</div>');
+                        $('div.ask').html("<div>You've accepted a request! You can confirm a request via email.</div>");
                     } else if (res['result'] == 3) {
-                        $('div.ask').html('<div>여행이 끝났습니다.</div>');
+                        $('div.ask').html("<div>We had been travelled! Please write a review!</div>");
                     }
                 },
                 fail: function (res) {
@@ -59,15 +65,16 @@
                 },
                 success: function (res) {
                     //var json = JSON.parse(res);
-
                     if (res['result'] == 0) {
-                        alert('<div>요청이 실패했습니다.</div>');
+                        alert('Failed to request.');
                     } else if (res['result'] == 1) {
-                        alert('저장 되었습니다.');
+                        alert('Completed!');
                     }
                 },
                 fail: function (res) {
-
+                    if (res['result'] == 0) {
+                        alert('Failed to request.');
+                    }
                 }
             });
 

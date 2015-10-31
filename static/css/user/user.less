@@ -1,5 +1,49 @@
-div.profile_picture {
-    img {
-        width: 100%;
+@import "../others/common";
+
+div.container {
+    > div.form {
+        form {
+            > div.profile-picture {
+                width: 136px;
+                height: 136px;
+                margin: 27px auto;
+                a {
+                    position: absolute;
+                    margin-top: -35px;
+                    padding: 5px;
+                    font-size: 20px;
+                    &.icon-camera {
+                        margin-left: 104px;
+                    }
+                }
+            }
+            div.input {
+                label {
+                    color:#aaa;
+                }
+                input {
+                    &#id_profile_picture, &#id_profile_delete {
+                        display:none;
+                    }
+                    &[type="submit"] {
+                        background:#ff6666;
+                        margin-bottom:15px;
+                    }
+                }
+                &-first-name, &-last-name, &-gender, &-place, &-language, &-about-me, &-email, &-password,
+                &-change-password, &-change-password-check {
+                    input, textarea {
+                        border: 1px solid #aaa;
+                    }
+                }
+            }
+        }
+    }
+    &.container-main {
+        margin:0 10% 55px 10%;
+        border-bottom: 1px solid #D7D7D7;
+    }
+    &.container-sub {
+        margin:0 10% 85px 10%;
     }
 }

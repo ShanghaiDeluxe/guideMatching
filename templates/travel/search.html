@@ -1,37 +1,44 @@
-<!DOCTYPE HTML>
-<!--//
-This web page has been developed by J.
- - jicjjang12@gmail.com
--->
-<html lang="ko">
-<head>
-    <title>Show me the Seoul</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="shortcut icon" type="image/ico" href="/static/img/favicon.ico" />
 
-    <!--[if lt IE 9]>
-    <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
-    <![endif]-->
+{% extends "base.html" %}
+
+{% block css %}
     <link rel="stylesheet" href="/static/css/travel/search.css">
+{% endblock %}
 
-    <!--[if lt IE 9]>
-    <script src="/static/vendor/respond/dest/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
+{% block nav %}
+    <nav>
+        <div class="container-nav">
+            <div class="back"><a href="/" class="icon-angle-left"></a></div>
+            <div class="title">Search Tour Spot</div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
     <ul class="lines">
         {% for line in lines %}
             <li class="line line-{{ line }}" data-target="station-{{ line }}">
-                <a>Line {{ line }}</a>
+                <a class="icon">{{ line }}</a>
             </li>
         {% endfor %}
     </ul>
+{% endblock %}
 
-    <ul class="stations"></ul>
+{% block content-sub %}
+    <div class="container container-sub">
+        <ul class="stations">
+            {% for station in stations %}
+                <li class="station station-{{ station.line }} icon-angle-right-after"
+                    data-href="/travel/{{ station.station_code }}/">
+                    <a class="icon">{{ station.line }}</a>
+                    <a class="travel">{{ station.station }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
 
+{% block js %}
     <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/travel/search.js"></script>
-</body>
-</html>
+{% endblock %}

@@ -37,7 +37,6 @@ This web page has been developed by J.
         <div class="gender">{% if user_list.1.gender %}
             {% if user_list.1.gender == 0 %}남자
             {% elif user_list.1.gender == 1 %}여자
-            {% else %}비밀
             {% endif %}{% endif %}
         </div>
         <div class="place">
@@ -48,8 +47,12 @@ This web page has been developed by J.
         <div class="languages">
             {% if languages %}{% for language in languages %}{% if language.language == '0' %}
                 <a>한국어</a>
-            {% else %}
+            {% elif language.language == '1' %}
                 <a>English</a>
+            {% elif language.language == '2' %}
+                <a>日本語</a>
+            {% elif language.language == '3' %}
+                <a>中国</a>
             {% endif %}{% endfor %}{% endif %}
         </div>
         <div class="about_me">{% if user_list.1.about_me %}{{ user_list.1.about_me }}{% endif %}</div>

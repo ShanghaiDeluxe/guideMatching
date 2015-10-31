@@ -1,84 +1,90 @@
-<!DOCTYPE HTML>
-<!--//
-This web page has been developed by J.
- - jicjjang12@gmail.com
--->
-<html lang="ko">
-<head>
-    <title>Show me the Seoul</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="shortcut icon" type="image/ico" href="/static/img/favicon.ico" />
 
-    <!--[if lt IE 9]>
-    <script src="/static/vendor/html5shiv/dist/html5shiv.min.js"></script>
-    <![endif]-->
+{% extends "base.html" %}
+
+{% block css %}
     <link rel="stylesheet" href="/static/css/user/match_list.css">
+{% endblock %}
 
-    <!--[if lt IE 9]>
-    <script src="/static/vendor/respond/dest/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
-    <nav></nav>
-    <ul class="guide_status">
-        <li class="call"><a>Call</a></li>
-        <li class="receive"><a>Receive</a></li>
-        <li class="complete"><a>Complete</a></li>
-    </ul>
-    <div class="container">
-        <div class="call">
-            <div>call list</div>
-            {% for call in calls %}
-                <div class="guide" data-target="{{ call.0.id }}/call_status/">
-                    <a>
-                        <img src="/{{ call.1.profile_picture }}" />
-                    </a>
-                    <a>{{ call.0.to_user.first_name }}</a>
-                    <a>{{ call.0.to_user.last_name }}</a>
-                </div>
-            {% endfor %}
+{% block nav %}
+    <nav>
+        <div class="container-nav">
+            <div class="back"><a href="/user/" class="icon-angle-left"></a></div>
+            <div class="title">Matching</div>
         </div>
-        <div class="receive">
-        <div>receive list</div>
-            {% for receive in receives %}
-                <div class="guide" data-target="{{ receive.0.id }}/receive_status/">
-                    <a>
-                        <img src="/{{ receive.1.profile_picture }}" />
-                    </a>
-                    <a>{{ receive.0.from_user.first_name }}</a>
-                    <a>{{ receive.0.from_user.last_name }}</a>
-                </div>
-            {% endfor %}
-        </div>
-        <div class="complete">
-            <div>complete list</div>
-            <div>call</div>
-            {% for before_travel in before_travels1 %}
-                <div class="guide" data-target="{{ before_travel.0.id }}/complete_status/">
-                    <a>
-                        <img src="/{{ before_travel.1.profile_picture }}" />
-                    </a>
-                    <a>{{ before_travel.0.to_user.first_name }}</a>
-                    <a>{{ before_travel.0.to_user.last_name }}</a>
-                </div>
-            {% endfor %}
-            <div>receive</div>
-            {% for before_travel in before_travels2 %}
-                <div class="guide" data-target="{{ before_travel.0.id }}/complete_status/">
-                    <a>
-                        <img src="/{{ before_travel.1.profile_picture }}" />
-                    </a>
-                    <a>{{ before_travel.0.from_user.first_name }}</a>
-                    <a>{{ before_travel.0.from_user.last_name }}</a>
-                </div>
-            {% endfor %}
-        </div>
+    </nav>
+{% endblock %}
 
+{% block content %}
+    <div class="guide_status">
+        <div class="call"><a>Asking</a></div>
+        <div class="receive active"><a>Waiting for<br/>your reply!</a></div>
+        <div class="complete"><a>Matched</a></div>
     </div>
-    <footer></footer>
+    <div class="guides guides-call">
+        {% for call in calls %}
+            <div class="guide" data-target="{{ call.0.id }}/call_status/">
+                <div class="profile-picture">
+                    <img src="/{{ call.1.profile_picture }}" alt="image">
+                </div>
+                <div class="date">{{ call.0.created|date:"Y / M / d" }}</div>
+                <div class="username">{{ call.0.to_user.first_name }}, {{ call.0.to_user.last_name }}</div>
+                <div class="station">{% for station in call.2 %}{{ station.station.station }} {% endfor %}</div>
+                <div class="content">{{ call.1.about_me }}</div>
+                <div class="comment icon-comment">{{ call.3 }}</div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="guides guides-receive active">
+        {% for receive in receives %}
+            <div class="guide" data-target="{{ receive.0.id }}/receive_status/">
+                <div class="profile-picture">
+                    <img src="/{{ receive.1.profile_picture }}" />
+                </div>
+                <div class="date">{{ receive.0.created|date:"Y / M / d" }}</div>
+                <div class="username">{{ receive.0.from_user.first_name }}, {{ receive.0.from_user.last_name }}</div>
+                <div class="station">{% for station in receive.2 %}{{ station.station.station }} {% endfor %}</div>
+                <div class="content">{{ receive.1.about_me }}</div>
+                <div class="comment icon-comment">{{ receive.3 }}</div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="guides guides-complete">
+        {% for before_travel in before_travels1 %}
+            <div class="guide" data-target="{{ before_travel.0.id }}/complete_status/">
+                <div class="profile-picture">
+                    <img src="/{{ before_travel.1.profile_picture }}" />
+                </div>
+                <div class="date">{{ before_travel.0.created|date:"Y / M / d" }}</div>
+                <div class="username">{{ before_travel.0.to_user.first_name }}, {{ before_travel.0.to_user.last_name }}</div>
+                <div class="station">{% for station in before_travel.2 %}{{ station.station.station }} {% endfor %}</div>
+                <div class="content">{{ before_travel.1.about_me }}</div>
+                <div class="comment icon-comment">{{ before_travel.3 }}</div>
+            </div>
+        {% endfor %}
+        {% for before_travel in before_travels2 %}
+            <div class="guide" data-target="{{ before_travel.0.id }}/complete_status/">
+                <div class="profile-picture">
+                    <img src="/{{ before_travel.1.profile_picture }}" />
+                </div>
+                <div class="date">{{ before_travel.0.created|date:"Y / M / d" }}</div>
+                <div class="username">{{ before_travel.0.to_user.first_name }}, {{ before_travel.0.to_user.last_name }}</div>
+                <div class="station">{% for station in before_travel.2 %}{{ station.station.station }} {% endfor %}</div>
+                <div class="content">{{ before_travel.1.about_me }}</div>
+                <div class="comment icon-comment">{{ before_travel.3 }}</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer>
+        <div class="home"><a class="icon-home" href="/"></a></div>
+        <div class="user"><a class="icon-user" href="/user/"></a></div>
+        <div class="users"><a class="icon-users" href="/user/match_list/"></a></div>
+    </footer>
+{% endblock %}
+
+{% block js %}
     <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/user/match_list.js"></script>
-</body>
-</html>
+{% endblock %}

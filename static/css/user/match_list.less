@@ -1,3 +1,36 @@
-ul.guide_status {
+@import "../others/common";
 
+div.container {
+    div.guide_status {
+        min-width:260px;
+        text-align:center;
+        border-bottom:1px solid #D7D7D7;
+        div {
+            display:inline-block;
+            vertical-align:middle;
+            font-size:12px;
+            margin:15px 0;
+            padding:0 5px;
+            a {
+                display:inline-block;
+                padding:10px;
+            }
+            &.active {
+                color:#FF6666;
+            }
+        }
+        div.receive {
+            border-left:1px solid #D7D7D7;
+            border-right:1px solid #D7D7D7;
+        }
+    }
+    div.guides {
+        display:none;
+        &.active {
+            display:block;
+        }
+    }
+    &.container-main {
+        margin:0 5% 85px 5%;
+    }
 }

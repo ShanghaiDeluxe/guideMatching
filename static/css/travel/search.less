@@ -1,30 +1,90 @@
-@import "../../vendor/normalize-less/normalize.less";
-@import "../common.less";
+@import "../others/common.less";
 
-ul.lines {
-    > li {
-        display: inline-block;
-        margin: 5px 10px;
-        padding: 3px;
-        border: 1px solid #000;
-        &:hover, &.active {
-            background-color: #000;
-            color: #fff;
+div.container {
+    ul {
+        li {
+            a.icon {
+                display:inline-block;
+                width:21px;
+                height:24px;
+                margin:5px;
+                color:#fff;
+                border-radius:25px;
+                padding:8px 0 0 11px;
+                font-size:15px;
+            }
+            &.line-1, &.station-1 { a.icon { background:#294CA3; } }
+            &.line-1.active { a.icon { color:#294CA3; border:3px solid #294CA3; } }
+            &.line-2, &.station-2 { a.icon { background:#39D969; } }
+            &.line-2.active { a.icon { color:#39D969; border:3px solid #39D969; } }
+            &.line-3, &.station-3 { a.icon { background:#FF9802; } }
+            &.line-3.active { a.icon { color:#FF9802; border:3px solid #FF9802; } }
+            &.line-4, &.station-4 { a.icon { background:#06E5F7; } }
+            &.line-4.active { a.icon { color:#06E5F7; border:3px solid #06E5F7; } }
+            &.line-5, &.station-5 { a.icon { background:#A550C7; } }
+            &.line-5.active { a.icon { color:#A550C7; border:3px solid #A550C7; } }
+            &.line-6, &.station-6 { a.icon { background:#CC8D2D; } }
+            &.line-6.active { a.icon { color:#CC8D2D; border:3px solid #CC8D2D; } }
+            &.line-7, &.station-7 { a.icon { background:#859B1B; } }
+            &.line-7.active { a.icon { color:#859B1B; border:3px solid #859B1B; } }
+            &.line-8, &.station-8 { a.icon { background:#F23EB3; } }
+            &.line-8.active { a.icon { color:#F23EB3; border:3px solid #F23EB3; } }
+            &.line-9, &.station-9 { a.icon { background:#BA9F14; } }
+            &.line-9.active { a.icon { color:#BA9F14; border:3px solid #BA9F14; } }
+            &.line-B, &.station-B { a.icon { background:#F7D01C; } }
+            &.line-B.active { a.icon { color:#F7D01C; border:3px solid #F7D01C; } }
+            &.line-K, &.station-K { a.icon { background:#2BCEC5; } }
+            &.line-K.active { a.icon { color:#2BCEC5; border:3px solid #2BCEC5; } }
+            &.line-A, &.station-A { a.icon { background:#29A5AD; } }
+            &.line-A.active { a.icon { color:#29A5AD; border:3px solid #29A5AD; } }
         }
-        > a {
-            font-size: 18px;
+        &.lines {
+            width:256px;
+            margin:25px auto 0 auto;
+            li {
+                display: inline-block;
+                vertical-align:top;
+                &.active {
+                    a.icon {
+                        width:18px;
+                        height:21px;
+                        padding:5px 0 0 8px;
+                        background:#fff;
+                    }
+                }
+            }
         }
-    }
-}
-
-ul.stations {
-    > li {
-        display: none;
-        &.active {
-            display: block;
-        }
-        > a {
-            font-size: 15px;
+        &.stations {
+            margin:25px auto 0 auto;
+            border-top:1px solid #D2CDD0;
+            > li {
+                display:none;
+                border-bottom:1px solid #D2CDD0;
+                padding:0 30px;
+                &.active {
+                    display:block;
+                }
+                a {
+                    display:inline-block;
+                    font-size:15px;
+                    &.icon {
+                        margin:10px 7px;
+                    }
+                    &.travel {
+                        padding:19px 0 0 15px;
+                        vertical-align:top;
+                        &, &:hover, &:active, &:link, &:visited {
+                            color:#000;
+                        }
+                    }
+                }
+                &:after {
+                    float:right;
+                    margin-top:15px;
+                    font-size:20px;
+                    color:#D2CDD0;
+                }
+            }
         }
     }
 }

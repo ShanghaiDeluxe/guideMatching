@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url, patterns
-from guideMatching.views import index, login, signup, lost, send_code, language
+from guideMatching.views import index, login, signup, lost, send_code
 
 urlpatterns = patterns('',
     url(r'^$', index, name="index"),
@@ -29,8 +29,6 @@ urlpatterns = patterns('',
     url(r'^signup/$', signup, name="signup"),
     url(r'^lost/$', lost, name="lost"),
     url(r'^send_code/$', send_code, name="send_code"),
-
-    url(r'^language/$', language, name="language"),
 
     url(r'^user/', include("user.urls", namespace="user")),
     url(r'^travel/', include("travel.urls", namespace="travel")),

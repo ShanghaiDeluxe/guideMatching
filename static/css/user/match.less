@@ -1,4 +1,83 @@
+@import "../others/common";
+
 .inactive {
-    display: none;
+    display:none;
+}
+
+div.container {
+    &.container-main {
+        margin:0 10% 85px 10%;
+        > div.user {
+            > div.profile-picture {
+                width:136px;
+                height:136px;
+                margin:27px auto;
+            }
+            label {
+                display:block;
+                color:#aaa;
+            }
+            div.input, div.textarea, div.select {
+                border:1px solid #aaa;
+                margin:7px 0;
+                padding:5px;
+            }
+            > div.select {
+                max-height:100px;
+                overflow:scroll;
+                a {
+                    display:block;
+                }
+            }
+        }
+        > div.ask {
+            button {
+                width:100%;
+                margin:7px 0;
+                padding:5px;
+                background:#ff6666;
+                color:#fff;
+            }
+            > div.receive {
+                width:100%;
+                min-width:256px;
+                text-align:center;
+                button {
+                    width:48%;
+                    min-width:122px;
+                }
+            }
+        }
+    }
+    &.container-sub {
+        margin:0 10%;
+        padding-top:55px;
+        form {
+            width:100%;
+            min-width:260px;
+            margin-top:30px;
+            text-align:center;
+            div.textarea {
+                textarea {
+                    width:100%;
+                    margin:7px 0;
+                    padding:5px;
+                    border:1px solid #aaa;
+                }
+            }
+            div.input {
+                display:inline-block;
+                width:49%;
+                min-width:125px;
+                input, button {
+                    width:100%;
+                    margin:7px 0;
+                    padding:5px;
+                    background:#ff6666;
+                    color:#fff;
+                }
+            }
+        }
+    }
 }
 

@@ -1,33 +1,39 @@
-<!DOCTYPE HTML>
-<!--//
-This web page has been developed by J.
- - jicjjang12@gmail.com
--->
-<html lang="ko">
-<head>
-    <title>Show me the Seoul</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="/static/css/travel/search.less">
-</head>
-<body>
+
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/login.css">
+{% endblock %}
+
+{% block content %}
+    <div class="logo">
+        <img src="/static/img/logo.png" alt="logo">
+    </div>
+    <div class="form">
+        <form action="." method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="/">
+            <div class="input input-username">
+                <label for="id_username">Username</label>
+                <input id="id_username" maxlength="254" name="username" type="text" autofocus/>
+            </div>
+            <div class="input input-password">
+                <label for="id_password">Password</label>
+                <input id="id_password" name="password" type="password" />
+            </div>
+            <div class="input input-submit">
+                <input type="submit" value="Login">
+            </div>
+        </form>
+    </div>
+    <div class="links">
+            <a class="signup" href="/signup">Join</a>
+            <a class="lost" href="/lost">Forgot Password</a>
+    </div>
+{% endblock %}
+
+{% block errors %}
     {% if form.errors %}
-        <p>사용자 이름과 비밀번호가 일치하지 않습니다. 다시 시도해보세요.</p>
+        <script>window.onload=function() {alert("Please check your username or password and try again.");}; </script>
     {% endif %}
-    <form action="." method="POST">
-        <input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
-        <input type="hidden" name="next" value="/">
-        <p>
-            <label for="id_username">ID:</label>
-            <input id="id_username" maxlength="254" name="username" type="text" autofocus/>
-        </p>
-        <p>
-            <label for="id_password">Password:</label>
-            <input id="id_password" name="password" type="password" />
-        </p>
-        <input type="submit" value="로그인">
-    </form>
-    <a href="/lost">비밀번호 분실</a>
-    <a href="/signup">회원가입</a>
-</body>
-</html>
+{% endblock %}

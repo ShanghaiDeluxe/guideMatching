@@ -1,24 +1,26 @@
-<!DOCTYPE HTML>
-<!--//
-This web page has been developed by J.
- - jicjjang12@gmail.com
--->
-<html lang="ko">
-<head>
-    <title>Show me the Seoul</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="/static/css/travel/search.less">
-</head>
-<body>
-    <div class="search">
-        <a href="/travel/">Search Tour Spot</a>
+
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+
+{% block content-prev %}
+    <div class="background"></div>
+{% endblock %}
+
+{% block content %}
+    <div class="description">
+        <div class="desc1 icon-newspaper"><a>Put your tour plain in my page</a></div>
+        <div class="desc2 icon-train"><a>Choose the station near by spot</a></div>
+        <div class="desc3 icon-help"><a>Ask for a guide you want<br/>to hang out with</a></div>
+        <div class="desc4 icon-attention-alt"><a>Make friends and enjoy Seoul!</a></div>
+        <div class="desc5 icon-pencil"><a>Put a Review in your friend's page<br/>after travel!</a></div>
     </div>
-    <div class="language">
-        <a href="/language/">Change Language</a>
+    <div class="search">
+        <a href="/travel/" class="icon-search">Any spot you interested in Seoul!</a>
     </div>
     <div class="my-page">
-        <a href="/user/">My Page</a>
+        <a href="/user/" class="icon-user"></a>
     </div>
-</body>
-</html>
+{% endblock %}

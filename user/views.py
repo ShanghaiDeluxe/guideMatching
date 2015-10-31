@@ -2,11 +2,12 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.context_processors import csrf
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.backends.mysql.base import DatabaseError
 from django.http.response import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from travel.models import DefaultStation, MatchTravel, Comment
 from user.forms import UserInfoForm, ReviewForm
@@ -15,42 +16,40 @@ from user.models import MyUser, MyStation, Language
 
 @login_required(login_url='/login/')
 def user_info(request):
+    status = 0
     comment_list = []
+    try:
+        my_user = MyUser.objects.get(user=request.user)
+    except (ObjectDoesNotExist, MultipleObjectsReturned):
+        raise Http404
+
     if request.method == "POST":
         form = UserInfoForm(request.POST, request.FILES)
 
         if form.is_valid():
-            try:
-                my_user = MyUser.objects.get(id=request.user.id)
-            except ObjectDoesNotExist:
-                raise Http404
 
-            if not request.user.check_password(request.POST['password']):
-                return HttpResponse("비밀번호가 틀립니다.")
+            if request.user.check_password(request.POST['password']):
 
-            modified_place(request, form)
-            modified_language(request, form)
-            my_user = modified_my_user(request, form, my_user)
-            request = modified_request_user(request, form)
+                modified_place(request, form)
+                modified_language(request, form)
+                my_user = modified_my_user(request, form, my_user)
+                request = modified_request_user(request, form)
 
-            if 'profile_picture' in request.FILES:
-                handle_uploaded_file(request.FILES['profile_picture'], my_user.profile_picture.name)
-
-        else:
-            return HttpResponse(form.errors)
+                if 'profile_picture' in request.FILES:
+                    handle_uploaded_file(request.FILES['profile_picture'], my_user.profile_picture.name)
+                status = 1
     else:
-        try:
-            my_user = MyUser.objects.get(user=request.user)
-            matches = MatchTravel.objects.filter(to_user=request.user, is_active=0)
-            if len(matches) > 0:
-                for match in matches:
-                    if Comment.objects.get(when=match):
-                        comment_list.append([Comment.objects.get(when=match), match.from_user,
-                                             MyUser.objects.get(user=match.from_user)])
-        except ObjectDoesNotExist:
-            raise Http404
-
         form = UserInfoForm()
+
+    try:
+        matches = MatchTravel.objects.filter(to_user=request.user, is_active=0)
+        if len(matches) > 0:
+            for match in matches:
+                if Comment.objects.filter(when=match):
+                    comment_list.append([Comment.objects.get(when=match), match.from_user,
+                                         MyUser.objects.get(user=match.from_user)])
+    except (ObjectDoesNotExist, MultipleObjectsReturned):
+        raise Http404
 
     my_stations = []
     for station in MyStation.objects.filter(user=request.user):
@@ -64,6 +63,7 @@ def user_info(request):
 
     context = RequestContext(request, {
         'form': form,
+        'status': status,
         'default_picture': 'static/profile/default_picture.jpg',
         'user_list': user_list,
         'comment_list': comment_list,
@@ -83,7 +83,7 @@ def modified_place(request, form):
                 for station_temp in form.cleaned_data.get('place'):
                     station = DefaultStation.objects.get(station_code=station_temp)
                     MyStation.objects.create(station=station, user=request.user)
-            except ObjectDoesNotExist:
+            except (ObjectDoesNotExist, MultipleObjectsReturned):
                 raise Http404
 
 
@@ -154,18 +154,42 @@ def match_list(request):
         before_travels2 = MatchTravel.objects.filter(to_user=request.user, is_active=0).order_by('created')
 
         for call in calls:
-            calls_list.append([call, MyUser.objects.get(user=call.to_user)])
+            comment = 0
+            if MatchTravel.objects.filter(from_user=call.to_user):
+                for value in MatchTravel.objects.filter(from_user=call.to_user):
+                    if Comment.objects.filter(when=value):
+                        comment += 1
+            calls_list.append([call, MyUser.objects.get(user=call.to_user),
+                               MyStation.objects.filter(user=call.to_user), comment])
 
         for receive in receives:
-            receives_list.append([receive, MyUser.objects.get(user=receive.from_user)])
+            comment = 0
+            if MatchTravel.objects.filter(from_user=receive.from_user):
+                for value in MatchTravel.objects.filter(from_user=receive.from_user):
+                    if Comment.objects.filter(when=value):
+                        comment += 1
+            receives_list.append([receive, MyUser.objects.get(user=receive.from_user),
+                                  MyStation.objects.filter(user=receive.from_user), comment])
 
         for before_travel in before_travels1:
-            before_travels1_list.append([before_travel, MyUser.objects.get(user=before_travel.to_user)])
+            comment = 0
+            if MatchTravel.objects.filter(from_user=before_travel.to_user):
+                for value in MatchTravel.objects.filter(from_user=before_travel.to_user):
+                    if Comment.objects.filter(when=value):
+                        comment += 1
+            before_travels1_list.append([before_travel, MyUser.objects.get(user=before_travel.to_user),
+                                         MyStation.objects.filter(user=before_travel.to_user), comment])
 
         for before_travel in before_travels2:
-            before_travels2_list.append([before_travel, MyUser.objects.get(user=before_travel.from_user)])
+            comment = 0
+            if MatchTravel.objects.filter(from_user=before_travel.from_user):
+                for value in MatchTravel.objects.filter(from_user=before_travel.from_user):
+                    if Comment.objects.filter(when=value):
+                        comment += 1
+            before_travels2_list.append([before_travel, MyUser.objects.get(user=before_travel.from_user),
+                                         MyStation.objects.filter(user=before_travel.from_user), comment])
 
-    except ObjectDoesNotExist:
+    except (ObjectDoesNotExist, MultipleObjectsReturned):
         raise Http404
 
     context = RequestContext(request, {
@@ -226,7 +250,7 @@ def ask_status(request, match_id):
         else:
             raise Exception(HTTP_400_BAD_REQUEST)
 
-    except ObjectDoesNotExist:
+    except (ObjectDoesNotExist, MultipleObjectsReturned):
         raise Http404
 
     user_list = (user, my_user)
@@ -242,32 +266,39 @@ def ask_status(request, match_id):
     return context
 
 
+@csrf_exempt
 @login_required(login_url='/login/')
 def status(request, match_id):
     context = ask_status(request, match_id)
     context.update(csrf(request))
     try:
         match = MatchTravel.objects.get(id=match_id)
-    except ObjectDoesNotExist:
+    except (ObjectDoesNotExist, MultipleObjectsReturned):
         raise Http404
 
-    if match.is_active == 0:
-        if Comment.objects.get(when=match):
-            context.update({'comment': Comment.objects.get(when=match)})
-        context.update({'form': ReviewForm()})
+    try:
+        if match.is_active == 0:
+            if Comment.objects.filter(when=match):
+                context.update({'comment': Comment.objects.get(when=match)})
+            context.update({'form': ReviewForm()})
+    except MultipleObjectsReturned:
+        raise Http404
+
     return render_to_response('user/match.html', context)
 
 
+@csrf_exempt
 def cancel_guide(request, match_id):
     if request.method == "POST":
         try:
             match = MatchTravel.objects.get(id=match_id)
             match.delete()
             return JsonResponse({'result': '1'})
-        except ObjectDoesNotExist:
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
             raise Http404
 
 
+@csrf_exempt
 def accept_guide(request, match_id):
     if request.method == "POST":
         try:
@@ -276,10 +307,11 @@ def accept_guide(request, match_id):
             match.from_status = 'confirm'
             match.save()
             return JsonResponse({'result': '2'})
-        except ObjectDoesNotExist:
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
             raise Http404
 
 
+@csrf_exempt
 def complete_guide(request, match_id):
 
     if request.method == "POST":
@@ -290,10 +322,11 @@ def complete_guide(request, match_id):
             match.is_active = 0
             match.save()
             return JsonResponse({'result': '3'})
-        except ObjectDoesNotExist:
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
             raise Http404
 
 
+@csrf_exempt
 def review(request, match_id):
     if request.method == "POST":
         form = ReviewForm(request.POST)
@@ -301,7 +334,7 @@ def review(request, match_id):
         if form.is_valid():
             try:
                 match = MatchTravel.objects.get(id=match_id)
-                if Comment.objects.get(when=match):
+                if Comment.objects.filter(when=match):
                     comment = Comment.objects.get(when=match)
                     comment.content = form.cleaned_data['content']
                     comment.save()
@@ -309,7 +342,7 @@ def review(request, match_id):
                     Comment.objects.create(when=match, content=form.cleaned_data['content'])
 
                 return JsonResponse({'result': '1'})
-            except ObjectDoesNotExist:
+            except (ObjectDoesNotExist, MultipleObjectsReturned):
                 raise Http404
 
         else:

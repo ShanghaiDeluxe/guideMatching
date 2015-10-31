@@ -1,0 +1,45 @@
+@import "./others/common";
+
+body {
+    background:#ff6666;
+}
+
+div.container {
+    > div.logo {
+        text-align:center;
+        > img {
+            margin-top:24%;
+            width:59%;
+        }
+    }
+    > div.form {
+        margin-top:31%;
+        form {
+            div.input {
+                label {
+                    color:#fff;
+                }
+                input[type="submit"] {
+                        background: #ff8c8c;
+                }
+            }
+        }
+    }
+    > div.links {
+        a {
+            display:inline-block;
+            height:40px;
+            color:#fff;
+            vertical-align:top;
+            &.signup {
+                width:48%;
+            }
+            &.lost {
+                width:30%;
+                padding-left:18%;
+                text-align:right;
+            }
+        }
+    }
+}
+

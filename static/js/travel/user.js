@@ -2,7 +2,7 @@
     var
         initialize = function () {
             $('div.ask > button').bind('click', function (e) {
-                if (confirm('is real?')) {
+                if (confirm('Are you sure to request?')) {
                     askGuide(e);
                 }
             })
@@ -20,7 +20,7 @@
                     console.log(res);
                     if (res['result'] == 1) {
                         $('div.ask').children('button').remove();
-                        $('div.ask').html('<div>매칭 요청이 전달되었습니다.</div>');
+                        $('div.ask').html('<div>Successed to send a request.</div>');
                     }
                 },
                 fail: function (res) {

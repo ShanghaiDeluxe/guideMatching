@@ -1,44 +1,69 @@
-<!DOCTYPE HTML>
-<!--//
-This web page has been developed by J.
- - jicjjang12@gmail.com
--->
-<html lang="ko">
-<head>
-    <title>Show me the Seoul</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="/static/css/travel/search.less">
-</head>
-<body>
-    <form action="." method="POST">
-        <input type='hidden' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
-        <input type="hidden" name="next" value="/">
-        <p>
-            <label for="id_username">ID:</label>
-            <input id="id_username" maxlength="254" name="username" type="text" />
-        </p>
-        <p>
-            <label for="id_email">Email:</label>
-            <input id="id_email" name="email" type="email" />
-        </p>
-        <button id="code">인증코드 보내기</button>
-        <p>
-            <label for="id_cert_code">Code:</label>
-            <input id="id_cert_code" maxlength="30" name="cert_code" type="text" />
-        </p>
-        <p>
-            <label for="id_password">Password:</label>
-            <input id="id_password" maxlength="30" name="password" type="password" />
-        </p>
-        <p>
-            <label for="id_password_check">Password(again):</label>
-            <input id="id_password_check" maxlength="30" name="password_check" type="password" />
-        </p>
-        <input type="submit" value="확인">
-    </form>
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>#}
-    <script src="/vendor/jquery/dist/jquery.min.js"></script>
+
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/lost.css">
+{% endblock %}
+
+{% block nav %}
+    <nav>
+        <div class="container-nav">
+            <div class="back"><a href="/" class="icon-angle-left"></a></div>
+            <div class="title">Reset Password</div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="form">
+        <form action="." method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="/">
+            <div class="input input-username">
+                <label for="id_username">Username</label>
+                <input id="id_username" maxlength="254" name="username" type="text" />
+            </div>
+            <div class="input input-email">
+                <label for="id_email">Email</label>
+                <input id="id_email" name="email" type="email" />
+            </div>
+            <div class="button button-code">
+                <button id="code">Send Code</button>
+            </div>
+            <div class="input input-cert-code">
+                <label for="id_cert_code">Code</label>
+                <input id="id_cert_code" maxlength="30" name="cert_code" type="text" />
+            </div>
+            <div class="input input-password">
+                <label for="id_password">Password</label>
+                <input id="id_password" maxlength="30" name="password" type="password" />
+            </div>
+            <div class="input input-password-check">
+                <label for="id_password_check">Confirm password</label>
+                <input id="id_password_check" maxlength="30" name="password_check" type="password" />
+            </div>
+            <div class="input input-submit">
+                <input type="submit" value="Reset Password">
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block errors %}
+    {% if form.username.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.username.0 }}");}; </script>
+    {% elif form.email.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.email.0 }}");}; </script>
+    {% elif form.password.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.password.0 }}");}; </script>
+    {% elif form.password_check.errors %}
+        <script>window.onload=function() {alert("{{ form.errors.password_check.0 }}");}; </script>
+    {% elif status == 1 %}
+        <script>window.onload=function() {alert("You've reset password. Please login.");}; </script>
+    {% endif %}
+{% endblock %}
+
+{% block js %}
+    <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/lost.js"></script>
-</body>
-</html>
+{% endblock %}

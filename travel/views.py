@@ -1,11 +1,12 @@
 import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.utils import DatabaseError
 from django.http.response import Http404, JsonResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from travel.models import DefaultStation, MatchTravel
 from user.models import MyStation, MyUser, Language
@@ -13,8 +14,11 @@ from user.models import MyStation, MyUser, Language
 
 @login_required(login_url='/login/')
 def travel_search(request):
+    stations = DefaultStation.objects.all().order_by('line', 'station')
+
     context = RequestContext(request, {
-        'lines': ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'B', 'A', 'G'],
+        'lines': ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'B', 'A', 'K'],
+        'stations': stations
     })
 
     return render_to_response("travel/search.html", context)
@@ -66,7 +70,7 @@ def guide_list(request, station_id):
             else:
                 raise Exception(HTTP_400_BAD_REQUEST)
 
-    except ObjectDoesNotExist:
+    except (ObjectDoesNotExist, MultipleObjectsReturned):
         raise Http404
 
     context = RequestContext(request, {
@@ -91,7 +95,7 @@ def guide(request, station_id, username):
         my_languages = Language.objects.filter(user=user)
         match_travels1 = MatchTravel.objects.filter(from_user=request.user, to_user=user)
         match_travels2 = MatchTravel.objects.filter(from_user=user, to_user=request.user)
-    except ObjectDoesNotExist:
+    except (ObjectDoesNotExist, MultipleObjectsReturned):
         raise Http404
     status = ask_status(request.user, user, match_travels1, match_travels2)
 
@@ -152,6 +156,7 @@ def ask_status(login_user, user, match_travels1, match_travels2):
             return 0
 
 
+@csrf_exempt
 @login_required(login_url='/login/')
 def invite_guide(request, station_id, username):
     if request.method == "POST":
@@ -160,7 +165,7 @@ def invite_guide(request, station_id, username):
             station = DefaultStation.objects.get(station_code=station_id)
             many_match = MatchTravel.objects.filter(to_user=user, from_user=request.user,
                                                     match_station=station, is_active=1)
-        except ObjectDoesNotExist:
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
             raise Http404
 
         if len(many_match) > 0:
