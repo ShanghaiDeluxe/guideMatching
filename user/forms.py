@@ -12,7 +12,6 @@ options_place.append((0, 'No Guide'))
 for station in DefaultStation.objects.all().exclude(line__in=['E', 'G', 'I', 'S', 'SU', 'U']).order_by('station'):
     options_place.append((station.station_code, station))
 
-
 options_language = []
 options_language.append(('0', '한국어'))
 options_language.append(('1', 'English'))
@@ -27,41 +26,41 @@ options_gender.append(('1', 'Woman'))
 
 error_message = {
     'min_max': {
-        'min_length': '최소 %(limit_value)d자 이상으로 입력해주세요. (현재 %(show_value)d자)',
-        'max_length': '최대 %(limit_value)d자 이하로 입력해주세요. (현재 %(show_value)d자)',
+        'min_length': 'more than %(limit_value)d characters. (current %(show_value)d)',
+        'max_length': 'less than %(limit_value)d characters. (current %(show_value)d)',
     },
     'about_me': {
-        'min_length': '최소 %(limit_value)d자 이상으로 입력해주세요. (현재 %(show_value)d자)',
-        'max_length': '최대 %(limit_value)d자 이하로 입력해주세요. (현재 %(show_value)d자)',
+        'min_length': 'more than %(limit_value)d characters. (current %(show_value)d)',
+        'max_length': 'less than %(limit_value)d characters. (current %(show_value)d)',
     },
     'username': {
-        'required': 'ID 항목을 입력해주세요.',
-        'min_length': '최소 %(limit_value)d자 이상으로 입력해주세요. (현재 %(show_value)d자)',
-        'max_length': '최대 %(limit_value)d자 이하로 입력해주세요. (현재 %(show_value)d자)',
+        'required': 'Please enter ID.',
+        'min_length': 'more than %(limit_value)d characters. (current %(show_value)d)',
+        'max_length': 'less than %(limit_value)d characters. (current %(show_value)d)',
     },
     'password': {
-        'required': 'Password 항목을 입력해주세요.',
-        'min_length': '최소 %(limit_value)d자 이상으로 입력해주세요. (현재 %(show_value)d자)',
+        'required': 'Please enter password',
+        'min_length': 'more than %(limit_value)d characters. (current %(show_value)d)',
     },
     'placeLanguage': {
-        'invalid_choice': '올바른 선택이 아닙니다.',
-        'invalid_list': '올바른 목록이 아닙니다.'
+        'invalid_choice': 'Please enter correct choice.',
+        'invalid_list': 'Please enter correct list.'
     },
     'email': {
-        'required': 'Email 항목을 입력해주세요.',
+        'required': 'Missing email address.',
     },
     'cert_code': {
-        'required': '올바른 인증코드를 입력해주세요.'
+        'required': 'Enter correct Code.'
     },
-    'invalid_login': '정확한 Id \(%(username)s\)와 Password를 입력해주세요.',
+    'invalid_login': 'Please enter correct ID/ PW',
 }
 
 
 class Clean:
     @staticmethod
     def _username(username):
-        if not re.search(r'^\w+$', username):
-            raise forms.ValidationError('사용자 이름은 알파벳, 숫자, 밑줄(_)만 가능합니다.')
+        if not re.search(r'^[A-Za-z1-9_]+$', username):
+            raise forms.ValidationError('Username is Alphabet, underline(_) and Number only.')
 
     @staticmethod
     def exist_username(username):
@@ -70,7 +69,7 @@ class Clean:
             User.objects.get(username=username)
         except (ObjectDoesNotExist, MultipleObjectsReturned):
             return username
-        raise forms.ValidationError('이미 사용 중인 사용자 정보입니다.')
+        raise forms.ValidationError("")
 
     @staticmethod
     def not_exist_username(username):
@@ -78,7 +77,7 @@ class Clean:
         try:
             User.objects.get(username=username)
         except (ObjectDoesNotExist, MultipleObjectsReturned):
-            raise forms.ValidationError('없는 사용자 정보입니다.')
+            raise forms.ValidationError("User info doesn't exist.")
         return username
 
     @staticmethod
@@ -86,7 +85,7 @@ class Clean:
         try:
             User.objects.filter(email=email)
         except ObjectDoesNotExist:
-            raise forms.ValidationError('없는 사용자 정보입니다.')
+            raise forms.ValidationError("User info doesn't exist.")
         return email
 
     @staticmethod
@@ -94,7 +93,7 @@ class Clean:
         if password == password_check:
             return password_check
 
-        raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
+        raise forms.ValidationError('Check password again.')
 
     @staticmethod
     def name(name):
@@ -102,9 +101,9 @@ class Clean:
             compiler = re.compile(r'^[A-Za-zㄱ-ㅣ가-힣]+')
             if compiler.findall(name):
                 if name != compiler.findall(name)[0]:
-                    raise forms.ValidationError('사용자 이름은 알파벳, 한글만 가능합니다.')
+                    raise forms.ValidationError('User name - Alphabet and Hangeul only.')
             else:
-                raise forms.ValidationError('사용자 이름은 알파벳, 한글만 가능합니다.')
+                raise forms.ValidationError('User name - Alphabet and Hangeul only.')
         return name
 
     @staticmethod
@@ -114,7 +113,7 @@ class Clean:
             if compiler.findall(content):
                 pass
             else:
-                raise forms.ValidationError('내용은 알파벳, 한글, 숫자만 가능합니다.')
+                raise forms.ValidationError('Alphabet, Hangeul and Number only.')
         return content
 
 

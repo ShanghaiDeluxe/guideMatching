@@ -28,7 +28,7 @@ urlpatterns = patterns('',
     ),
     url(r'^signup/$', signup, name="signup"),
     url(r'^lost/$', lost, name="lost"),
-    url(r'^send_code/$', send_code, name="send_code"),
+    url(r'^lost/send_code/$', send_code, name="send_code"),
 
     url(r'^user/', include("user.urls", namespace="user")),
     url(r'^travel/', include("travel.urls", namespace="travel")),

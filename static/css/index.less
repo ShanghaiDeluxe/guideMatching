@@ -1,7 +1,10 @@
 @import "./others/common";
 
+body {
+     background: #ff6666;
+}
 a, a:hover, a:visited, a:link, a:active {
-    color:#D7D7D7;
+    color:#fff;
 }
 
 div.background {
@@ -20,7 +23,7 @@ div.container {
     position:relative;
     &.container-main {
         div.description {
-            color:#D7D7D7;
+            color:#fff;
             div {
                 min-width:260px;
                 margin-bottom:25px;
@@ -46,20 +49,26 @@ div.container {
             min-width:260px;
             text-align: center;
             font-size: 14px;
-            border:1px solid #D7D7D7;
+            border:1px solid #fff;
             a {
                 display:block;
                 padding:15px;
             }
             &:before {
-                color:#D7D7D7;
+                color:#fff;
             }
         }
         div.my-page {
             min-width:260px;
-            margin-top:92px;
+            margin-top:35px;
             text-align: center;
             font-size:36px;
+            div {
+                display: inline-block;
+                a {
+                    padding: 15px;
+                }
+            }
         }
     }
 }

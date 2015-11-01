@@ -11,7 +11,7 @@
             e.preventDefault();
             $.ajax({
                 type: "POST",
-                url: 'http://127.0.0.1:8000/send_code/',
+                url: e.currentTarget.baseURI + 'send_code/',
                 data: {
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
                     username: $('#id_username').val(),
@@ -33,7 +33,7 @@
 
             $.ajax({
                 type: "POST",
-                url: 'http://127.0.0.1:8000/lost/',
+                url: e.currentTarget.baseURI,
                 data: {
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
                     username: $('#id_username').val(),

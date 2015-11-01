@@ -21,7 +21,7 @@
             {% if user_list.1.profile_picture %}
                 <div class="profile-picture">
                     <img src="/{{ user_list.1.profile_picture }}" alt="profile_picture" />
-                    <a class="icon-check-empty"></a>
+                    <a class="icon-check-empty-after">Del</a>
                     <a class="icon-camera"></a>
                 </div>
                 <div class="input input-profile-delete">
@@ -30,12 +30,11 @@
             {% else %}
                 <div class="profile-picture">
                     <img src="/{{ default_picture }}" alt="default_picture" />
-                    <a class="icon-check-empty"></a>
                     <a class="icon-camera"></a>
                 </div>
             {% endif %}
             <div class="input input-profile-picture">
-                <input id="id_profile_picture" name="profile_picture" type="file"/>
+                <input id="id_profile_picture" name="profile_picture" onChange="changeImage(this)"type="file"/>
             </div>
             <div class="input input-first-name">
                 <label for="id_first_name">First Name</label>
